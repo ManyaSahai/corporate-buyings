@@ -1,0 +1,411 @@
+"use client";
+
+import React, { useState } from "react";
+import Link from "next/link";
+import { Header } from "@/components/Header";
+import { Footer7 } from "@/components/ui/footer-7";
+import {
+    Box,
+    Flex,
+    Text,
+    Container,
+    VStack,
+    HStack,
+    Heading,
+    Button,
+    IconButton,
+} from "@chakra-ui/react";
+import { FiTrash2, FiPlus, FiMinus, FiArrowLeft } from "react-icons/fi";
+import { THEME_SOLID, THEME_GRADIENT, BG_COLOR, DARK_BG } from "@/lib/colors";
+
+// Mock cart items
+const initialCartItems = [
+    {
+        id: "1",
+        title: "Camlin Pb White Board Marker Pen, Red, Pack Of 10, Bold",
+        brand: "Camlin",
+        quantity: 50,
+        image: "/img/1.webp",
+    },
+];
+
+// Quote Form Modal
+function QuoteFormModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+    if (!isOpen) return null;
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        alert("Quote request submitted successfully! We will contact you soon.");
+        onClose();
+    };
+
+    const inputStyle = {
+        width: "100%",
+        padding: "12px 0",
+        background: "transparent",
+        border: "none",
+        borderBottom: "1px solid rgba(255,255,255,0.3)",
+        color: "white",
+        fontSize: "14px",
+        outline: "none",
+    };
+
+    const labelStyle = {
+        color: "rgba(255,255,255,0.6)",
+        fontSize: "14px",
+    };
+
+    return (
+        <Box
+            position="fixed"
+            top={0}
+            left={0}
+            right={0}
+            bottom={0}
+            bg="blackAlpha.700"
+            zIndex={1000}
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            onClick={onClose}
+        >
+            <Box
+                bg="#1e2a4a"
+                rounded="xl"
+                p={8}
+                maxW="600px"
+                w="90%"
+                position="relative"
+                onClick={(e) => e.stopPropagation()}
+            >
+                {/* Close Button */}
+                <IconButton
+                    aria-label="Close"
+                    position="absolute"
+                    top={4}
+                    right={4}
+                    bg={THEME_SOLID}
+                    color="white"
+                    size="sm"
+                    rounded="md"
+                    _hover={{ opacity: 0.9 }}
+                    onClick={onClose}
+                >
+                    ✕
+                </IconButton>
+
+                <Heading as="h2" fontSize="2xl" fontWeight="bold" color="white" mb={8}>
+                    Fill Form For Quotation
+                </Heading>
+
+                <VStack as="form" onSubmit={handleSubmit} gap={6} align="stretch">
+                    {/* Row 1: Name and Organization */}
+                    <Flex gap={8} direction={{ base: "column", md: "row" }}>
+                        <Box flex={1}>
+                            <label style={labelStyle}>Name *</label>
+                            <input
+                                type="text"
+                                required
+                                style={inputStyle}
+                            />
+                        </Box>
+                        <Box flex={1}>
+                            <label style={labelStyle}>Organization/Company *</label>
+                            <input
+                                type="text"
+                                required
+                                style={inputStyle}
+                            />
+                        </Box>
+                    </Flex>
+
+                    {/* Row 2: Email and Phone */}
+                    <Flex gap={8} direction={{ base: "column", md: "row" }}>
+                        <Box flex={1}>
+                            <label style={labelStyle}>Company&apos;s Email *</label>
+                            <input
+                                type="email"
+                                required
+                                style={inputStyle}
+                            />
+                        </Box>
+                        <Box flex={1}>
+                            <label style={labelStyle}>Phone number *</label>
+                            <input
+                                type="tel"
+                                required
+                                style={inputStyle}
+                            />
+                        </Box>
+                    </Flex>
+
+                    {/* Row 3: Message */}
+                    <Box>
+                        <label style={labelStyle}>Inquiry / Message *</label>
+                        <textarea
+                            required
+                            rows={5}
+                            style={{
+                                ...inputStyle,
+                                resize: "vertical",
+                                borderBottom: "1px solid rgba(255,255,255,0.3)",
+                            }}
+                        />
+                    </Box>
+
+                    {/* Submit Button */}
+                    <Button
+                        w="full"
+                        bg={THEME_SOLID}
+                        color="white"
+                        size="lg"
+                        py={7}
+                        fontSize="lg"
+                        fontWeight="medium"
+                        type="submit"
+                        rounded="lg"
+                        _hover={{ opacity: 0.9 }}
+                        mt={4}
+                    >
+                        Get Quote
+                    </Button>
+                </VStack>
+            </Box>
+        </Box>
+    );
+}
+
+export default function CartPage() {
+    const [cartItems, setCartItems] = useState(initialCartItems);
+    const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
+
+    const updateQuantity = (id: string, delta: number) => {
+        setCartItems(items =>
+            items.map(item =>
+                item.id === id
+                    ? { ...item, quantity: Math.max(1, item.quantity + delta) }
+                    : item
+            )
+        );
+    };
+
+    const setQuantity = (id: string, value: number) => {
+        setCartItems(items =>
+            items.map(item =>
+                item.id === id
+                    ? { ...item, quantity: Math.max(1, value) }
+                    : item
+            )
+        );
+    };
+
+    const removeItem = (id: string) => {
+        setCartItems(items => items.filter(item => item.id !== id));
+    };
+
+    const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+
+    return (
+        <Box minH="100vh" bg={BG_COLOR} display="flex" flexDirection="column">
+            <Header />
+
+            <Container maxW="6xl" px={{ base: 4, md: 8 }} py={8} flex="1">
+                {/* Header Row */}
+                <Flex justify="space-between" align="center" mb={8}>
+                    <Heading as="h1" fontSize={{ base: "2xl", md: "3xl" }} fontWeight="bold" fontStyle="italic">
+                        Your Quote Cart
+                    </Heading>
+                    <Link href="/products" style={{ textDecoration: "none" }}>
+                        <Flex align="center" color={THEME_SOLID} fontWeight="medium" _hover={{ textDecoration: "underline" }}>
+                            <FiArrowLeft style={{ marginRight: "6px" }} />
+                            Continue Shopping
+                        </Flex>
+                    </Link>
+                </Flex>
+
+                {cartItems.length === 0 ? (
+                    <Box textAlign="center" py={20}>
+                        <Text fontSize="xl" color="gray.600" mb={4}>
+                            Your cart is empty
+                        </Text>
+                        <Link href="/products">
+                            <Button bg={THEME_SOLID} color="white" _hover={{ opacity: 0.9 }}>
+                                Browse Products
+                            </Button>
+                        </Link>
+                    </Box>
+                ) : (
+                    <Box>
+                        {/* Table Header */}
+                        <Box
+                            bg="gray.50"
+                            borderLeft="4px solid"
+                            borderLeftColor={THEME_SOLID}
+                            py={4}
+                            px={6}
+                            mb={0}
+                        >
+                            <Flex justify="space-between" align="center">
+                                <Text fontWeight="bold" fontSize="sm" textTransform="uppercase" color="gray.700">
+                                    Product
+                                </Text>
+                                <Text fontWeight="bold" fontSize="sm" textTransform="uppercase" color="gray.700" mr={20}>
+                                    Quantity
+                                </Text>
+                            </Flex>
+                        </Box>
+
+                        {/* Divider */}
+                        <Box h="1px" bg="gray.200" />
+
+                        {/* Cart Items */}
+                        <VStack gap={0} align="stretch">
+                            {cartItems.map((item) => (
+                                <Box
+                                    key={item.id}
+                                    bg="white"
+                                    py={6}
+                                    px={6}
+                                    borderBottom="1px solid"
+                                    borderColor="gray.100"
+                                >
+                                    <Flex gap={6} align="center" justify="space-between">
+                                        {/* Product Info */}
+                                        <Flex gap={4} align="center" flex={1}>
+                                            <Box
+                                                w="80px"
+                                                h="80px"
+                                                flexShrink={0}
+                                                display="flex"
+                                                alignItems="center"
+                                                justifyContent="center"
+                                                bg="gray.50"
+                                                rounded="lg"
+                                                p={2}
+                                            >
+                                                <img
+                                                    src={item.image}
+                                                    alt={item.title}
+                                                    style={{ maxHeight: "100%", maxWidth: "100%", objectFit: "contain" }}
+                                                />
+                                            </Box>
+                                            <Box>
+                                                <Text fontWeight="medium" color="gray.800" mb={1}>
+                                                    {item.title}
+                                                </Text>
+                                                <Text fontSize="sm" color={THEME_SOLID}>
+                                                    {item.brand}
+                                                </Text>
+                                            </Box>
+                                        </Flex>
+
+                                        {/* Quantity Controls */}
+                                        <Flex gap={4} align="center">
+                                            <HStack gap={0}>
+                                                <IconButton
+                                                    aria-label="Decrease quantity"
+                                                    size="sm"
+                                                    bg={THEME_SOLID}
+                                                    color="white"
+                                                    rounded="none"
+                                                    roundedLeft="md"
+                                                    _hover={{ opacity: 0.9 }}
+                                                    onClick={() => updateQuantity(item.id, -1)}
+                                                >
+                                                    <FiMinus />
+                                                </IconButton>
+                                                <input
+                                                    type="number"
+                                                    value={item.quantity}
+                                                    onChange={(e) => setQuantity(item.id, parseInt(e.target.value) || 1)}
+                                                    style={{
+                                                        width: "60px",
+                                                        height: "32px",
+                                                        textAlign: "center",
+                                                        border: "1px solid #E2E8F0",
+                                                        borderLeft: "none",
+                                                        borderRight: "none",
+                                                        fontSize: "14px",
+                                                    }}
+                                                />
+                                                <IconButton
+                                                    aria-label="Increase quantity"
+                                                    size="sm"
+                                                    bg={THEME_SOLID}
+                                                    color="white"
+                                                    rounded="none"
+                                                    roundedRight="md"
+                                                    _hover={{ opacity: 0.9 }}
+                                                    onClick={() => updateQuantity(item.id, 1)}
+                                                >
+                                                    <FiPlus />
+                                                </IconButton>
+                                            </HStack>
+
+                                            {/* Delete Button */}
+                                            <IconButton
+                                                aria-label="Remove item"
+                                                size="sm"
+                                                bg={THEME_SOLID}
+                                                color="white"
+                                                _hover={{ opacity: 0.9 }}
+                                                onClick={() => removeItem(item.id)}
+                                            >
+                                                <FiTrash2 />
+                                            </IconButton>
+                                        </Flex>
+                                    </Flex>
+                                </Box>
+                            ))}
+                        </VStack>
+
+                        {/* Spacer for footer */}
+                        <Box h="120px" />
+                    </Box>
+                )}
+            </Container>
+
+            {/* Sticky Footer */}
+            {cartItems.length > 0 && (
+                <Box
+                    position="fixed"
+                    bottom={0}
+                    left={0}
+                    right={0}
+                    bg="white"
+                    borderTop="1px solid"
+                    borderColor="gray.200"
+                    py={4}
+                    px={8}
+                    zIndex={100}
+                >
+                    <Container maxW="6xl">
+                        <Flex justify="space-between" align="center">
+                            <Text color="gray.500">
+                                {cartItems.length} item{cartItems.length !== 1 ? 's' : ''} in cart
+                            </Text>
+                            <Button
+                                bg={THEME_SOLID}
+                                color="white"
+                                size="md"
+                                px={8}
+                                _hover={{ opacity: 0.9 }}
+                                onClick={() => setIsQuoteModalOpen(true)}
+                            >
+                                Request Quote
+                            </Button>
+                        </Flex>
+                    </Container>
+                </Box>
+            )}
+
+            {/* Quote Form Modal */}
+            <QuoteFormModal
+                isOpen={isQuoteModalOpen}
+                onClose={() => setIsQuoteModalOpen(false)}
+            />
+
+            <Footer7 />
+        </Box>
+    );
+}
