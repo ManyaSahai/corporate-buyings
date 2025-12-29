@@ -3,7 +3,6 @@ import { Header } from "@/components/Header";
 import { HeroBanner } from "@/components/HeroBanner";
 import { CategorySection } from "@/components/CategorySection";
 import { ProductSection } from "@/components/ProductSection";
-import { BrandShowcase } from "@/components/BrandShowcase";
 import { Footer7 } from "@/components/ui/footer-7";
 import { LogoCloud } from "@/components/ui/logo-cloud-4";
 import Testimonials from "@/components/Testimonials/Testimonials";

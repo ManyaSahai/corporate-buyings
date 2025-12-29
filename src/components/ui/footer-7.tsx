@@ -186,7 +186,7 @@ export const Footer7 = ({
                 </Text>
 
                 {feature.title === "Secure Payment" && (
-                  <HStack spacing={4} mt={3} align="center">
+                  <HStack gap={4} mt={3} align="center">
                     <Box as="span">
                       <Image
                         src="/img/visa-icon.svg"
