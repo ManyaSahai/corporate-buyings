@@ -9,18 +9,14 @@ import {
   Flex,
   Text,
   Input,
-  InputGroup,
   Button,
   Badge,
   IconButton,
   Container,
   Grid,
-  VStack,
-  HStack,
 } from "@chakra-ui/react";
 import {
   FiSearch,
-  FiFilter,
   FiPhone,
   FiChevronLeft,
   FiChevronRight,
@@ -138,143 +134,7 @@ const allProducts = [
 const uniqueBrands = [...new Set(allProducts.map((p) => p.brand))].sort();
 const uniqueCategories = [...new Set(allProducts.map((p) => p.category))].sort();
 
-// 1. Sidebar Component
-interface SidebarContentProps {
-  selectedBrands: string[];
-  selectedCategories: string[];
-  onBrandChange: (brand: string) => void;
-  onCategoryChange: (category: string) => void;
-  onReset: () => void;
-  brandSearch: string;
-  categorySearch: string;
-  onBrandSearchChange: (val: string) => void;
-  onCategorySearchChange: (val: string) => void;
-}
-
-const SidebarContent = ({
-  selectedBrands,
-  selectedCategories,
-  onBrandChange,
-  onCategoryChange,
-  onReset,
-  brandSearch,
-  categorySearch,
-  onBrandSearchChange,
-  onCategorySearchChange,
-}: SidebarContentProps) => {
-  const filteredBrands = uniqueBrands.filter((b) =>
-    b.toLowerCase().includes(brandSearch.toLowerCase())
-  );
-  const filteredCategories = uniqueCategories.filter((c) =>
-    c.toLowerCase().includes(categorySearch.toLowerCase())
-  );
-
-  const brandCounts = useMemo(() => {
-    const counts: Record<string, number> = {};
-    uniqueBrands.forEach((brand) => {
-      counts[brand] = allProducts.filter((p) => p.brand === brand).length;
-    });
-    return counts;
-  }, []);
-
-  const categoryCounts = useMemo(() => {
-    const counts: Record<string, number> = {};
-    uniqueCategories.forEach((cat) => {
-      counts[cat] = allProducts.filter((p) => p.category === cat).length;
-    });
-    return counts;
-  }, []);
-
-  return (
-    <VStack gap={6} align="start" w="full">
-      {/* Categories Section */}
-      <Box bg="white" p={5} rounded="2xl" shadow="sm" w="full">
-        <Flex justify="space-between" align="center" mb={4}>
-          <Text fontWeight="bold" fontSize="lg">
-            Categories
-          </Text>
-          <Text fontSize="xs" color="gray.500">
-            {selectedCategories.length} selected
-          </Text>
-        </Flex>
-
-        <InputGroup mb={3}>
-          <Input
-            placeholder="Search categories..."
-            borderRadius="2xl"
-            value={categorySearch}
-            onChange={(e) => onCategorySearchChange(e.target.value)}
-          />
-        </InputGroup>
-
-        <VStack gap={2} align="start" maxH="250px" overflowY="auto" pr={2}>
-          {filteredCategories.map((cat, i) => (
-            <HStack key={i} gap={2} cursor="pointer" onClick={() => onCategoryChange(cat)}>
-              <input
-                type="checkbox"
-                checked={selectedCategories.includes(cat)}
-                onChange={() => onCategoryChange(cat)}
-              />
-              <Text fontSize="sm" color="gray.700">
-                {cat} ({categoryCounts[cat]})
-              </Text>
-            </HStack>
-          ))}
-        </VStack>
-      </Box>
-
-      {/* Brands Section */}
-      <Box bg="white" p={5} rounded="2xl" shadow="sm" w="full">
-        <Flex justify="space-between" align="center" mb={4}>
-          <Text fontWeight="bold" fontSize="lg">
-            Brands
-          </Text>
-          <Text fontSize="xs" color="gray.500">
-            {selectedBrands.length} selected
-          </Text>
-        </Flex>
-
-        <InputGroup mb={3}>
-          <Input
-            placeholder="Search brands..."
-            borderRadius="2xl"
-            value={brandSearch}
-            onChange={(e) => onBrandSearchChange(e.target.value)}
-          />
-        </InputGroup>
-
-        <VStack gap={2} align="start" maxH="250px" overflowY="auto" pr={2}>
-          {filteredBrands.map((brand, i) => (
-            <HStack key={i} gap={2} cursor="pointer" onClick={() => onBrandChange(brand)}>
-              <input
-                type="checkbox"
-                checked={selectedBrands.includes(brand)}
-                onChange={() => onBrandChange(brand)}
-              />
-              <Text fontSize="sm" color="gray.700">
-                {brand} ({brandCounts[brand]})
-              </Text>
-            </HStack>
-          ))}
-        </VStack>
-      </Box>
-
-      {/* Reset Button */}
-      <Button
-        w="full"
-        bg={THEME_SOLID}
-        color="white"
-        _hover={{ opacity: 0.9 }}
-        size="md"
-        onClick={onReset}
-      >
-        Reset All Filters
-      </Button>
-    </VStack>
-  );
-};
-
-// 2. Product Card Component
+// Product Card Component
 const ProductCard = ({
   product,
 }: {
@@ -409,9 +269,6 @@ const FilterChip = ({ label, onRemove }: { label: string; onRemove: () => void }
 export default function ProductsPageClient() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [open, setOpen] = useState(false);
-  const [brandSearch, setBrandSearch] = useState("");
-  const [categorySearch, setCategorySearch] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
 
   // Get filters from URL params
@@ -509,80 +366,6 @@ export default function ProductsPageClient() {
       </Box>
 
       <Container maxW="8xl" px={{ base: 4, md: 8 }} pb={20}>
-        {/* Mobile Filter Toggle */}
-        <Button
-          display={{ base: "flex", lg: "none" }}
-          onClick={() => setOpen(!open)}
-          bg={THEME_COLOR}
-          color="white"
-          mb={4}
-          _hover={{ bg: THEME_SOLID }}
-        >
-          <FiFilter style={{ marginRight: "8px" }} />
-          {open ? "Hide Filters" : "Show Filters"}
-        </Button>
-
-        {/* Mobile Filter Drawer */}
-        {open && (
-          <Box
-            display={{ base: "block", lg: "none" }}
-            position="fixed"
-            top={0}
-            left={0}
-            right={0}
-            bottom={0}
-            zIndex={1000}
-          >
-            {/* Overlay */}
-            <Box
-              position="absolute"
-              top={0}
-              left={0}
-              right={0}
-              bottom={0}
-              bg="blackAlpha.600"
-              onClick={() => setOpen(false)}
-            />
-            {/* Drawer Content */}
-            <Box
-              position="absolute"
-              top={0}
-              left={0}
-              bottom={0}
-              w="85%"
-              maxW="320px"
-              bg={BG_COLOR}
-              p={4}
-              overflowY="auto"
-              shadow="xl"
-            >
-              <Flex justify="space-between" align="center" mb={4}>
-                <Text fontWeight="bold" fontSize="lg">Filters</Text>
-                <IconButton
-                  as="button"
-                  variant="ghost"
-                  aria-label="Close filters"
-                  size="sm"
-                  onClick={() => setOpen(false)}
-                >
-                  <FiX />
-                </IconButton>
-              </Flex>
-              <SidebarContent
-                selectedBrands={selectedBrands}
-                selectedCategories={selectedCategories}
-                onBrandChange={handleBrandChange}
-                onCategoryChange={handleCategoryChange}
-                onReset={handleReset}
-                brandSearch={brandSearch}
-                categorySearch={categorySearch}
-                onBrandSearchChange={setBrandSearch}
-                onCategorySearchChange={setCategorySearch}
-              />
-            </Box>
-          </Box>
-        )}
-
         {/* Active Filters Display */}
         {(selectedBrands.length > 0 || selectedCategories.length > 0) && (
           <Flex gap={2} mb={4} wrap="wrap" align="center">
@@ -599,149 +382,193 @@ export default function ProductsPageClient() {
           </Flex>
         )}
 
-        <Flex gap={8} align="start">
-          {/* 2. Sidebar (Desktop) */}
-          <Box
-            w="280px"
-            display={{ base: "none", lg: "block" }}
-            position="sticky"
-            top="20px"
-          >
-            <SidebarContent
-              selectedBrands={selectedBrands}
-              selectedCategories={selectedCategories}
-              onBrandChange={handleBrandChange}
-              onCategoryChange={handleCategoryChange}
-              onReset={handleReset}
-              brandSearch={brandSearch}
-              categorySearch={categorySearch}
-              onBrandSearchChange={setBrandSearch}
-              onCategorySearchChange={setCategorySearch}
-            />
-          </Box>
-
-          {/* 3. Main Product Grid */}
-          <Box flex="1">
-            {/* Top Bar: Search & Sort */}
-            <Flex
-              justify="space-between"
-              direction={{ base: "column", md: "row" }}
-              align={{ base: "stretch", md: "center" }}
-              gap={4}
-              mb={6}
-              bg="white"
-              p={{ base: 3, md: 4 }}
-              rounded="2xl"
-              shadow="sm"
-            >
-              <Box position="relative" maxW={{ base: "full", md: "400px" }} w="full">
-                <Input
-                  placeholder="Search products..."
-                  borderRadius="2xl"
-                  bg="gray.50"
-                  border="none"
-                  pl={10}
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-                <Box
-                  position="absolute"
-                  left={3}
-                  top="50%"
-                  transform="translateY(-50%)"
-                >
-                  <FiSearch color="gray.400" />
-                </Box>
-              </Box>
-
-              <Flex 
-                align="center" 
-                gap={{ base: 2, md: 4 }}
-                justify={{ base: "space-between", md: "flex-end" }}
-                flexWrap="wrap"
-              >
-                <Text fontSize={{ base: "xs", md: "sm" }} color="gray.600">
-                  {filteredProducts.length} products found
-                </Text>
-                <select
-                  style={{
-                    width: "auto",
-                    minWidth: "140px",
-                    borderRadius: "8px",
-                    padding: "8px",
-                    backgroundColor: "#F7FAFC",
-                    border: "none",
-                    fontSize: "14px",
-                  }}
-                >
-                  <option>Default Sorting</option>
-                  <option>Price: Low to High</option>
-                  <option>Price: High to Low</option>
-                  <option>Newest First</option>
-                </select>
-              </Flex>
-            </Flex>
-
-            {/* Products Grid */}
-            {filteredProducts.length > 0 ? (
-              <Grid
-                templateColumns={{
-                  base: "1fr",
-                  sm: "repeat(2, 1fr)",
-                  xl: "repeat(3, 1fr)",
+        {/* Filters & Search Bar - All on same level */}
+        <Flex
+          direction={{ base: "column", lg: "row" }}
+          gap={4}
+          mb={6}
+          bg="white"
+          p={{ base: 3, md: 4 }}
+          rounded="2xl"
+          shadow="sm"
+          align={{ base: "stretch", lg: "center" }}
+          justify="space-between"
+          flexWrap="wrap"
+        >
+          {/* Left side: Brand & Category Dropdowns */}
+          <Flex gap={3} align="center" flexWrap="wrap" flex={{ base: "1", lg: "auto" }}>
+            {/* Brand Filter Dropdown */}
+            <Box position="relative">
+              <select
+                value={selectedBrands[0] || ""}
+                onChange={(e) => {
+                  const params = new URLSearchParams(searchParams.toString());
+                  if (e.target.value) {
+                    params.set("brand", e.target.value);
+                  } else {
+                    params.delete("brand");
+                  }
+                  router.push(`/products?${params.toString()}`);
                 }}
-                gap={6}
+                style={{
+                  minWidth: "150px",
+                  borderRadius: "24px",
+                  padding: "10px 16px",
+                  backgroundColor: "#F7FAFC",
+                  border: "1px solid #E2E8F0",
+                  fontSize: "14px",
+                  cursor: "pointer",
+                }}
               >
-                {filteredProducts.map((product) => (
-                  <ProductCard key={product.id} product={product} />
+                <option value="">All Brands</option>
+                {uniqueBrands.map((brand) => (
+                  <option key={brand} value={brand}>{brand}</option>
                 ))}
-              </Grid>
-            ) : (
-              <Box bg="white" p={12} rounded="2xl" textAlign="center">
-                <Text fontSize="lg" color="gray.500" mb={4}>
-                  No products found matching your filters.
-                </Text>
-                <Button colorScheme="blue" onClick={handleReset}>
-                  Reset Filters
-                </Button>
-              </Box>
-            )}
+              </select>
+            </Box>
 
-            {/* Pagination */}
-            {filteredProducts.length > 0 && (
-              <Flex 
-                justify="center" 
-                mt={{ base: 8, md: 12 }} 
-                gap={{ base: 1, md: 2 }}
-                flexWrap="wrap"
+            {/* Category Filter Dropdown */}
+            <Box position="relative">
+              <select
+                value={selectedCategories[0] || ""}
+                onChange={(e) => {
+                  const params = new URLSearchParams(searchParams.toString());
+                  if (e.target.value) {
+                    params.set("category", e.target.value);
+                  } else {
+                    params.delete("category");
+                  }
+                  router.push(`/products?${params.toString()}`);
+                }}
+                style={{
+                  minWidth: "160px",
+                  borderRadius: "24px",
+                  padding: "10px 16px",
+                  backgroundColor: "#F7FAFC",
+                  border: "1px solid #E2E8F0",
+                  fontSize: "14px",
+                  cursor: "pointer",
+                }}
               >
-                <Button variant="outline" size={{ base: "xs", md: "sm" }}>
-                  <FiChevronLeft style={{ marginRight: "4px" }} />
-                  Prev
-                </Button>
-                <Button bg={THEME_SOLID} color="white" size={{ base: "xs", md: "sm" }}>
-                  1
-                </Button>
-                <Button variant="ghost" size={{ base: "xs", md: "sm" }}>
-                  2
-                </Button>
-                <Button variant="ghost" size={{ base: "xs", md: "sm" }}>
-                  3
-                </Button>
-                <Button variant="ghost" size={{ base: "xs", md: "sm" }} display={{ base: "none", sm: "flex" }}>
-                  ...
-                </Button>
-                <Button variant="ghost" size={{ base: "xs", md: "sm" }} display={{ base: "none", sm: "flex" }}>
-                  233
-                </Button>
-                <Button bg={THEME_SOLID} color="white" size={{ base: "xs", md: "sm" }}>
-                  Next
-                  <FiChevronRight style={{ marginLeft: "4px" }} />
-                </Button>
-              </Flex>
-            )}
+                <option value="">All Categories</option>
+                {uniqueCategories.map((cat) => (
+                  <option key={cat} value={cat}>{cat}</option>
+                ))}
+              </select>
+            </Box>
+          </Flex>
+
+          {/* Center: Search Bar */}
+          <Box position="relative" maxW={{ base: "full", lg: "350px" }} w="full" flex={{ base: "1", lg: "1" }} mx={{ lg: 4 }}>
+            <Input
+              placeholder="Search products..."
+              borderRadius="2xl"
+              bg="gray.50"
+              border="1px solid"
+              borderColor="gray.200"
+              pl={10}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            <Box
+              position="absolute"
+              left={3}
+              top="50%"
+              transform="translateY(-50%)"
+            >
+              <FiSearch color="gray.400" />
+            </Box>
           </Box>
+
+          {/* Right side: Product count & Sort */}
+          <Flex 
+            align="center" 
+            gap={{ base: 2, md: 3 }}
+            justify={{ base: "space-between", lg: "flex-end" }}
+            flexWrap="wrap"
+            flex={{ base: "1", lg: "auto" }}
+          >
+            <Text fontSize={{ base: "xs", md: "sm" }} color="gray.600" whiteSpace="nowrap">
+              {filteredProducts.length} products
+            </Text>
+            <select
+              style={{
+                minWidth: "140px",
+                borderRadius: "24px",
+                padding: "10px 16px",
+                backgroundColor: "#F7FAFC",
+                border: "1px solid #E2E8F0",
+                fontSize: "14px",
+                cursor: "pointer",
+              }}
+            >
+              <option>Default Sorting</option>
+              <option>Price: Low to High</option>
+              <option>Price: High to Low</option>
+              <option>Newest First</option>
+            </select>
+          </Flex>
         </Flex>
+
+        {/* Products Grid - Full width now */}
+        {filteredProducts.length > 0 ? (
+          <Grid
+            templateColumns={{
+              base: "1fr",
+              sm: "repeat(2, 1fr)",
+              md: "repeat(3, 1fr)",
+              xl: "repeat(4, 1fr)",
+            }}
+            gap={6}
+          >
+            {filteredProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </Grid>
+        ) : (
+          <Box bg="white" p={12} rounded="2xl" textAlign="center">
+            <Text fontSize="lg" color="gray.500" mb={4}>
+              No products found matching your filters.
+            </Text>
+            <Button colorScheme="blue" onClick={handleReset}>
+              Reset Filters
+            </Button>
+          </Box>
+        )}
+
+        {/* Pagination */}
+        {filteredProducts.length > 0 && (
+          <Flex 
+            justify="center" 
+            mt={{ base: 8, md: 12 }} 
+            gap={{ base: 1, md: 2 }}
+            flexWrap="wrap"
+          >
+            <Button variant="outline" size={{ base: "xs", md: "sm" }}>
+              <FiChevronLeft style={{ marginRight: "4px" }} />
+              Prev
+            </Button>
+            <Button bg={THEME_SOLID} color="white" size={{ base: "xs", md: "sm" }}>
+              1
+            </Button>
+            <Button variant="ghost" size={{ base: "xs", md: "sm" }}>
+              2
+            </Button>
+            <Button variant="ghost" size={{ base: "xs", md: "sm" }}>
+              3
+            </Button>
+            <Button variant="ghost" size={{ base: "xs", md: "sm" }} display={{ base: "none", sm: "flex" }}>
+              ...
+            </Button>
+            <Button variant="ghost" size={{ base: "xs", md: "sm" }} display={{ base: "none", sm: "flex" }}>
+              233
+            </Button>
+            <Button bg={THEME_SOLID} color="white" size={{ base: "xs", md: "sm" }}>
+              Next
+              <FiChevronRight style={{ marginLeft: "4px" }} />
+            </Button>
+          </Flex>
+        )}
       </Container>
 
       {/* Floating WhatsApp Button */}
