@@ -211,12 +211,18 @@ export default function CartPage() {
 
             <Container maxW="6xl" px={{ base: 4, md: 8 }} py={8} flex="1">
                 {/* Header Row */}
-                <Flex justify="space-between" align="center" mb={8}>
-                    <Heading as="h1" fontSize={{ base: "2xl", md: "3xl" }} fontWeight="bold" fontStyle="italic">
+                <Flex 
+                    justify="space-between" 
+                    align={{ base: "flex-start", md: "center" }} 
+                    mb={{ base: 6, md: 8 }}
+                    direction={{ base: "column", sm: "row" }}
+                    gap={{ base: 3, sm: 0 }}
+                >
+                    <Heading as="h1" fontSize={{ base: "xl", md: "3xl" }} fontWeight="bold" fontStyle="italic">
                         Your Quote Cart
                     </Heading>
                     <Link href="/products" style={{ textDecoration: "none" }}>
-                        <Flex align="center" color={THEME_SOLID} fontWeight="medium" _hover={{ textDecoration: "underline" }}>
+                        <Flex align="center" color={THEME_SOLID} fontWeight="medium" fontSize={{ base: "sm", md: "md" }} _hover={{ textDecoration: "underline" }}>
                             <FiArrowLeft style={{ marginRight: "6px" }} />
                             Continue Shopping
                         </Flex>
@@ -236,14 +242,15 @@ export default function CartPage() {
                     </Box>
                 ) : (
                     <Box>
-                        {/* Table Header */}
+                        {/* Table Header - Hidden on mobile */}
                         <Box
                             bg="gray.50"
                             borderLeft="4px solid"
                             borderLeftColor={THEME_SOLID}
-                            py={4}
-                            px={6}
+                            py={{ base: 3, md: 4 }}
+                            px={{ base: 4, md: 6 }}
                             mb={0}
+                            display={{ base: "none", md: "block" }}
                         >
                             <Flex justify="space-between" align="center">
                                 <Text fontWeight="bold" fontSize="sm" textTransform="uppercase" color="gray.700">
@@ -264,17 +271,22 @@ export default function CartPage() {
                                 <Box
                                     key={item.id}
                                     bg="white"
-                                    py={6}
-                                    px={6}
+                                    py={{ base: 4, md: 6 }}
+                                    px={{ base: 4, md: 6 }}
                                     borderBottom="1px solid"
                                     borderColor="gray.100"
                                 >
-                                    <Flex gap={6} align="center" justify="space-between">
+                                    <Flex 
+                                        gap={{ base: 3, md: 6 }} 
+                                        align={{ base: "flex-start", md: "center" }} 
+                                        justify="space-between"
+                                        direction={{ base: "column", md: "row" }}
+                                    >
                                         {/* Product Info */}
-                                        <Flex gap={4} align="center" flex={1}>
+                                        <Flex gap={{ base: 3, md: 4 }} align="center" flex={1} w="full">
                                             <Box
-                                                w="80px"
-                                                h="80px"
+                                                w={{ base: "60px", md: "80px" }}
+                                                h={{ base: "60px", md: "80px" }}
                                                 flexShrink={0}
                                                 display="flex"
                                                 alignItems="center"
@@ -289,22 +301,33 @@ export default function CartPage() {
                                                     style={{ maxHeight: "100%", maxWidth: "100%", objectFit: "contain" }}
                                                 />
                                             </Box>
-                                            <Box>
-                                                <Text fontWeight="medium" color="gray.800" mb={1}>
+                                            <Box flex={1}>
+                                                <Text 
+                                                    fontWeight="medium" 
+                                                    color="gray.800" 
+                                                    mb={1}
+                                                    fontSize={{ base: "sm", md: "md" }}
+                                                    style={{
+                                                        WebkitLineClamp: 2,
+                                                        display: "-webkit-box",
+                                                        WebkitBoxOrient: "vertical",
+                                                        overflow: "hidden",
+                                                    }}
+                                                >
                                                     {item.title}
                                                 </Text>
-                                                <Text fontSize="sm" color={THEME_SOLID}>
+                                                <Text fontSize={{ base: "xs", md: "sm" }} color={THEME_SOLID}>
                                                     {item.brand}
                                                 </Text>
                                             </Box>
                                         </Flex>
 
                                         {/* Quantity Controls */}
-                                        <Flex gap={4} align="center">
+                                        <Flex gap={{ base: 2, md: 4 }} align="center" w={{ base: "full", md: "auto" }} justify={{ base: "space-between", md: "flex-end" }}>
                                             <HStack gap={0}>
                                                 <IconButton
                                                     aria-label="Decrease quantity"
-                                                    size="sm"
+                                                    size={{ base: "xs", md: "sm" }}
                                                     bg={THEME_SOLID}
                                                     color="white"
                                                     rounded="none"
@@ -319,8 +342,8 @@ export default function CartPage() {
                                                     value={item.quantity}
                                                     onChange={(e) => setQuantity(item.id, parseInt(e.target.value) || 1)}
                                                     style={{
-                                                        width: "60px",
-                                                        height: "32px",
+                                                        width: "50px",
+                                                        height: "28px",
                                                         textAlign: "center",
                                                         border: "1px solid #E2E8F0",
                                                         borderLeft: "none",
@@ -330,7 +353,7 @@ export default function CartPage() {
                                                 />
                                                 <IconButton
                                                     aria-label="Increase quantity"
-                                                    size="sm"
+                                                    size={{ base: "xs", md: "sm" }}
                                                     bg={THEME_SOLID}
                                                     color="white"
                                                     rounded="none"
@@ -345,7 +368,7 @@ export default function CartPage() {
                                             {/* Delete Button */}
                                             <IconButton
                                                 aria-label="Remove item"
-                                                size="sm"
+                                                size={{ base: "xs", md: "sm" }}
                                                 bg={THEME_SOLID}
                                                 color="white"
                                                 _hover={{ opacity: 0.9 }}
@@ -375,20 +398,20 @@ export default function CartPage() {
                     bg="white"
                     borderTop="1px solid"
                     borderColor="gray.200"
-                    py={4}
-                    px={8}
+                    py={{ base: 3, md: 4 }}
+                    px={{ base: 4, md: 8 }}
                     zIndex={100}
                 >
-                    <Container maxW="6xl">
+                    <Container maxW="6xl" px={{ base: 0, md: 4 }}>
                         <Flex justify="space-between" align="center">
-                            <Text color="gray.500">
+                            <Text color="gray.500" fontSize={{ base: "sm", md: "md" }}>
                                 {cartItems.length} item{cartItems.length !== 1 ? 's' : ''} in cart
                             </Text>
                             <Button
                                 bg={THEME_SOLID}
                                 color="white"
-                                size="md"
-                                px={8}
+                                size={{ base: "sm", md: "md" }}
+                                px={{ base: 4, md: 8 }}
                                 _hover={{ opacity: 0.9 }}
                                 onClick={() => setIsQuoteModalOpen(true)}
                             >

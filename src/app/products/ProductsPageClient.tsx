@@ -300,11 +300,11 @@ const ProductCard = ({
       h="100%"
     >
       <Box
-        p={6}
+        p={{ base: 4, md: 6 }}
         display="flex"
         justifyContent="center"
         bg="white"
-        h="250px"
+        h={{ base: "180px", md: "250px" }}
         alignItems="center"
         position="relative"
         w="full"
@@ -316,10 +316,10 @@ const ProductCard = ({
         />
       </Box>
 
-      <Box p={5} flex="1" display="flex" flexDirection="column">
+      <Box p={{ base: 3, md: 5 }} flex="1" display="flex" flexDirection="column">
         <Text
           fontWeight="bold"
-          fontSize="md"
+          fontSize={{ base: "sm", md: "md" }}
           mb={2}
           color="gray.800"
           style={{
@@ -519,8 +519,69 @@ export default function ProductsPageClient() {
           _hover={{ bg: THEME_SOLID }}
         >
           <FiFilter style={{ marginRight: "8px" }} />
-          Show Filters
+          {open ? "Hide Filters" : "Show Filters"}
         </Button>
+
+        {/* Mobile Filter Drawer */}
+        {open && (
+          <Box
+            display={{ base: "block", lg: "none" }}
+            position="fixed"
+            top={0}
+            left={0}
+            right={0}
+            bottom={0}
+            zIndex={1000}
+          >
+            {/* Overlay */}
+            <Box
+              position="absolute"
+              top={0}
+              left={0}
+              right={0}
+              bottom={0}
+              bg="blackAlpha.600"
+              onClick={() => setOpen(false)}
+            />
+            {/* Drawer Content */}
+            <Box
+              position="absolute"
+              top={0}
+              left={0}
+              bottom={0}
+              w="85%"
+              maxW="320px"
+              bg={BG_COLOR}
+              p={4}
+              overflowY="auto"
+              shadow="xl"
+            >
+              <Flex justify="space-between" align="center" mb={4}>
+                <Text fontWeight="bold" fontSize="lg">Filters</Text>
+                <IconButton
+                  as="button"
+                  variant="ghost"
+                  aria-label="Close filters"
+                  size="sm"
+                  onClick={() => setOpen(false)}
+                >
+                  <FiX />
+                </IconButton>
+              </Flex>
+              <SidebarContent
+                selectedBrands={selectedBrands}
+                selectedCategories={selectedCategories}
+                onBrandChange={handleBrandChange}
+                onCategoryChange={handleCategoryChange}
+                onReset={handleReset}
+                brandSearch={brandSearch}
+                categorySearch={categorySearch}
+                onBrandSearchChange={setBrandSearch}
+                onCategorySearchChange={setCategorySearch}
+              />
+            </Box>
+          </Box>
+        )}
 
         {/* Active Filters Display */}
         {(selectedBrands.length > 0 || selectedCategories.length > 0) && (
@@ -564,15 +625,16 @@ export default function ProductsPageClient() {
             {/* Top Bar: Search & Sort */}
             <Flex
               justify="space-between"
-              wrap="wrap"
+              direction={{ base: "column", md: "row" }}
+              align={{ base: "stretch", md: "center" }}
               gap={4}
               mb={6}
               bg="white"
-              p={4}
+              p={{ base: 3, md: 4 }}
               rounded="2xl"
               shadow="sm"
             >
-              <Box position="relative" maxW="400px" w="full">
+              <Box position="relative" maxW={{ base: "full", md: "400px" }} w="full">
                 <Input
                   placeholder="Search products..."
                   borderRadius="2xl"
@@ -592,17 +654,24 @@ export default function ProductsPageClient() {
                 </Box>
               </Box>
 
-              <Flex align="center" gap={4}>
-                <Text fontSize="sm" color="gray.600">
+              <Flex 
+                align="center" 
+                gap={{ base: 2, md: 4 }}
+                justify={{ base: "space-between", md: "flex-end" }}
+                flexWrap="wrap"
+              >
+                <Text fontSize={{ base: "xs", md: "sm" }} color="gray.600">
                   {filteredProducts.length} products found
                 </Text>
                 <select
                   style={{
-                    width: "200px",
+                    width: "auto",
+                    minWidth: "140px",
                     borderRadius: "8px",
                     padding: "8px",
                     backgroundColor: "#F7FAFC",
                     border: "none",
+                    fontSize: "14px",
                   }}
                 >
                   <option>Default Sorting</option>
@@ -640,27 +709,32 @@ export default function ProductsPageClient() {
 
             {/* Pagination */}
             {filteredProducts.length > 0 && (
-              <Flex justify="center" mt={12} gap={2}>
-                <Button variant="outline" size="sm">
+              <Flex 
+                justify="center" 
+                mt={{ base: 8, md: 12 }} 
+                gap={{ base: 1, md: 2 }}
+                flexWrap="wrap"
+              >
+                <Button variant="outline" size={{ base: "xs", md: "sm" }}>
                   <FiChevronLeft style={{ marginRight: "4px" }} />
                   Prev
                 </Button>
-                <Button bg={THEME_SOLID} color="white" size="sm">
+                <Button bg={THEME_SOLID} color="white" size={{ base: "xs", md: "sm" }}>
                   1
                 </Button>
-                <Button variant="ghost" size="sm">
+                <Button variant="ghost" size={{ base: "xs", md: "sm" }}>
                   2
                 </Button>
-                <Button variant="ghost" size="sm">
+                <Button variant="ghost" size={{ base: "xs", md: "sm" }}>
                   3
                 </Button>
-                <Button variant="ghost" size="sm">
+                <Button variant="ghost" size={{ base: "xs", md: "sm" }} display={{ base: "none", sm: "flex" }}>
                   ...
                 </Button>
-                <Button variant="ghost" size="sm">
+                <Button variant="ghost" size={{ base: "xs", md: "sm" }} display={{ base: "none", sm: "flex" }}>
                   233
                 </Button>
-                <Button bg={THEME_SOLID} color="white" size="sm">
+                <Button bg={THEME_SOLID} color="white" size={{ base: "xs", md: "sm" }}>
                   Next
                   <FiChevronRight style={{ marginLeft: "4px" }} />
                 </Button>

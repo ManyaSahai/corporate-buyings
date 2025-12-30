@@ -146,18 +146,18 @@ function RelatedProductCard({ product, productId }: { product: typeof productDet
         border="1px solid"
         borderColor="gray.100"
       >
-        <Box p={4} display="flex" justifyContent="center" bg="white" h="150px" alignItems="center">
+        <Box p={{ base: 2, md: 4 }} display="flex" justifyContent="center" bg="white" h={{ base: "100px", md: "150px" }} alignItems="center">
           <img
             src={product.image}
             alt={product.title}
             style={{ maxHeight: "100%", maxWidth: "100%", objectFit: "contain" }}
           />
         </Box>
-        <Box p={4}>
+        <Box p={{ base: 2, md: 4 }}>
           <Text
             fontWeight="medium"
-            fontSize="sm"
-            mb={2}
+            fontSize={{ base: "xs", md: "sm" }}
+            mb={{ base: 1, md: 2 }}
             color="gray.800"
             style={{
               WebkitLineClamp: 2,
@@ -273,14 +273,30 @@ export default function ProductDetailPage({
     <Box minH="100vh" bg={BG_COLOR}>
       <Header />
 
-      <Container maxW="8xl" px={{ base: 4, md: 8 }} py={12}>
+      <Container maxW="8xl" px={{ base: 4, md: 8 }} py={{ base: 6, md: 12 }}>
         {/* Breadcrumb */}
-        <Flex gap={2} mb={8} fontSize="sm" color="gray.600">
+        <Flex 
+          gap={2} 
+          mb={{ base: 4, md: 8 }} 
+          fontSize={{ base: "xs", md: "sm" }} 
+          color="gray.600"
+          flexWrap="wrap"
+          display={{ base: "none", sm: "flex" }}
+        >
           <Link href="/products" style={{ color: "#3182CE" }}>Products</Link>
           <Text>/</Text>
           <Link href={`/products?category=${encodeURIComponent(product.category)}`} style={{ color: "#3182CE" }}>{product.category}</Link>
           <Text>/</Text>
-          <Text fontWeight="medium" color="gray.900">
+          <Text 
+            fontWeight="medium" 
+            color="gray.900"
+            style={{
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+              maxWidth: "200px"
+            }}
+          >
             {product.title}
           </Text>
         </Flex>
@@ -297,11 +313,12 @@ export default function ProductDetailPage({
             bg="white"
             rounded="2xl"
             shadow="sm"
-            p={8}
+            p={{ base: 4, md: 8 }}
             display="flex"
             justifyContent="center"
             alignItems="center"
             alignSelf="stretch"
+            minH={{ base: "200px", md: "300px" }}
           >
             <img
               src={product.image}
@@ -315,20 +332,21 @@ export default function ProductDetailPage({
           </Box>
 
           {/* Right Side - Details */}
-          <Box flex={1} display="flex" flexDirection="column" gap={6}>
+          <Box flex={1} display="flex" flexDirection="column" gap={{ base: 4, md: 6 }}>
             {/* Title and Actions */}
             <Box>
-              <Text fontSize="2xl" fontWeight="bold" color="gray.900" mb={3}>
+              <Text fontSize={{ base: "xl", md: "2xl" }} fontWeight="bold" color="gray.900" mb={3}>
                 {product.title}
               </Text>
 
               {/* Action Buttons */}
-              <Flex gap={3} flexWrap="wrap" mb={6}>
+              <Flex gap={3} flexWrap="wrap" mb={{ base: 4, md: 6 }}>
                 <Button
                   flex={1}
+                  minW={{ base: "200px", md: "auto" }}
                   bg={THEME_SOLID}
                   color="white"
-                  size="lg"
+                  size={{ base: "md", md: "lg" }}
                   _hover={{ opacity: 0.9 }}
                 >
                   <FaFileAlt style={{ marginRight: "8px" }} />
@@ -340,7 +358,7 @@ export default function ProductDetailPage({
                   variant="outline"
                   colorScheme="blue"
                   aria-label="Share"
-                  size="lg"
+                  size={{ base: "md", md: "lg" }}
                   w="50px"
                   onClick={() => setIsShareModalOpen(true)}
                 >
@@ -349,17 +367,18 @@ export default function ProductDetailPage({
               </Flex>
 
               {/* Badges */}
-              <Flex gap={3} mb={6}>
+              <Flex gap={{ base: 2, md: 3 }} mb={{ base: 4, md: 6 }} flexWrap="wrap">
                 <Link href={`/products?brand=${encodeURIComponent(product.brand)}`}>
                   <Badge
                     bg="blue.50"
                     color="blue.500"
-                    px={3}
-                    py={2}
+                    px={{ base: 2, md: 3 }}
+                    py={{ base: 1, md: 2 }}
                     borderRadius="2xl"
                     textTransform="none"
                     fontWeight="medium"
                     cursor="pointer"
+                    fontSize={{ base: "xs", md: "sm" }}
                     _hover={{ bg: "blue.100" }}
                   >
                     {product.brand}
@@ -369,12 +388,13 @@ export default function ProductDetailPage({
                   <Badge
                     bg="pink.50"
                     color="pink.500"
-                    px={3}
-                    py={2}
+                    px={{ base: 2, md: 3 }}
+                    py={{ base: 1, md: 2 }}
                     borderRadius="2xl"
                     textTransform="none"
                     fontWeight="medium"
                     cursor="pointer"
+                    fontSize={{ base: "xs", md: "sm" }}
                     _hover={{ bg: "pink.100" }}
                   >
                     {product.category}
@@ -386,42 +406,66 @@ export default function ProductDetailPage({
             {/* Tabs for Description and Specifications */}
             <Box bg="white" rounded="2xl" shadow="sm" overflow="hidden">
               <Tabs.Root defaultValue="description" variant="line" colorPalette="blue">
-                <Tabs.List px={6} pt={4} borderBottom="1px solid" borderColor="gray.100">
+                <Tabs.List 
+                  px={{ base: 3, md: 6 }} 
+                  pt={{ base: 3, md: 4 }} 
+                  borderBottom="1px solid" 
+                  borderColor="gray.100"
+                  overflowX="auto"
+                >
                   <Tabs.Trigger
                     value="description"
                     fontWeight="semibold"
-                    px={4}
+                    px={{ base: 2, md: 4 }}
                     pb={3}
+                    fontSize={{ base: "sm", md: "md" }}
                     _selected={{ color: THEME_SOLID, borderColor: THEME_SOLID }}
                     color="gray.500"
+                    whiteSpace="nowrap"
                   >
                     Product Description
                   </Tabs.Trigger>
                   <Tabs.Trigger
                     value="specifications"
                     fontWeight="semibold"
-                    px={4}
+                    px={{ base: 2, md: 4 }}
                     pb={3}
+                    fontSize={{ base: "sm", md: "md" }}
                     _selected={{ color: THEME_SOLID, borderColor: THEME_SOLID }}
                     color="gray.500"
+                    whiteSpace="nowrap"
                   >
                     Specifications
                   </Tabs.Trigger>
                 </Tabs.List>
-                <Tabs.Content value="description" p={6}>
-                  <Text color="gray.600" lineHeight="1.8">
+                <Tabs.Content value="description" p={{ base: 4, md: 6 }}>
+                  <Text color="gray.600" lineHeight="1.8" fontSize={{ base: "sm", md: "md" }}>
                     {product.description}
                   </Text>
                 </Tabs.Content>
-                <Tabs.Content value="specifications" p={6}>
+                <Tabs.Content value="specifications" p={{ base: 4, md: 6 }}>
                   <Table.Root size="sm">
                     <Table.Body>
                       {product.specifications.map((spec, index) => (
                         <Table.Row key={index}>
-                          <Table.Cell fontWeight="medium" color="gray.700" py={2} borderBottom="1px solid" borderColor="gray.100">
+                          <Table.Cell 
+                            fontWeight="medium" 
+                            color="gray.700" 
+                            py={2} 
+                            borderBottom="1px solid" 
+                            borderColor="gray.100"
+                            fontSize={{ base: "xs", md: "sm" }}
+                            w={{ base: "40%", md: "auto" }}
+                          >
                             {spec.key}
                           </Table.Cell>
-                          <Table.Cell color="gray.600" py={2} borderBottom="1px solid" borderColor="gray.100">
+                          <Table.Cell 
+                            color="gray.600" 
+                            py={2} 
+                            borderBottom="1px solid" 
+                            borderColor="gray.100"
+                            fontSize={{ base: "xs", md: "sm" }}
+                          >
                             {spec.value}
                           </Table.Cell>
                         </Table.Row>
@@ -435,8 +479,8 @@ export default function ProductDetailPage({
         </Flex>
 
         {/* Related Products Section */}
-        <Box mt={16}>
-          <Text fontSize="2xl" fontWeight="bold" color="gray.900" mb={6}>
+        <Box mt={{ base: 10, md: 16 }}>
+          <Text fontSize={{ base: "xl", md: "2xl" }} fontWeight="bold" color="gray.900" mb={{ base: 4, md: 6 }}>
             Related Products
           </Text>
           <Grid
