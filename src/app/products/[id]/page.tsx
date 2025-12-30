@@ -20,6 +20,7 @@ import {
 import { FiShare2 } from "react-icons/fi";
 import { FaWhatsapp, FaFileAlt } from "react-icons/fa";
 import { THEME_SOLID, BG_COLOR } from "@/lib/colors";
+import { Footer7 } from "@/components/ui/footer-7";
 
 const productDetails: Record<
   string,
@@ -275,9 +276,9 @@ export default function ProductDetailPage({
       <Container maxW="8xl" px={{ base: 4, md: 8 }} py={12}>
         {/* Breadcrumb */}
         <Flex gap={2} mb={8} fontSize="sm" color="gray.600">
-          <Text>Products</Text>
+          <Link href="/products" style={{ color: "#3182CE" }}>Products</Link>
           <Text>/</Text>
-          <Text>{product.category}</Text>
+          <Link href={`/products?category=${encodeURIComponent(product.category)}`} style={{ color: "#3182CE" }}>{product.category}</Link>
           <Text>/</Text>
           <Text fontWeight="medium" color="gray.900">
             {product.title}
@@ -349,28 +350,36 @@ export default function ProductDetailPage({
 
               {/* Badges */}
               <Flex gap={3} mb={6}>
-                <Badge
-                  bg="blue.50"
-                  color="blue.500"
-                  px={3}
-                  py={2}
-                  borderRadius="2xl"
-                  textTransform="none"
-                  fontWeight="medium"
-                >
-                  {product.brand}
-                </Badge>
-                <Badge
-                  bg="pink.50"
-                  color="pink.500"
-                  px={3}
-                  py={2}
-                  borderRadius="2xl"
-                  textTransform="none"
-                  fontWeight="medium"
-                >
-                  {product.category}
-                </Badge>
+                <Link href={`/products?brand=${encodeURIComponent(product.brand)}`}>
+                  <Badge
+                    bg="blue.50"
+                    color="blue.500"
+                    px={3}
+                    py={2}
+                    borderRadius="2xl"
+                    textTransform="none"
+                    fontWeight="medium"
+                    cursor="pointer"
+                    _hover={{ bg: "blue.100" }}
+                  >
+                    {product.brand}
+                  </Badge>
+                </Link>
+                <Link href={`/products?category=${encodeURIComponent(product.category)}`}>
+                  <Badge
+                    bg="pink.50"
+                    color="pink.500"
+                    px={3}
+                    py={2}
+                    borderRadius="2xl"
+                    textTransform="none"
+                    fontWeight="medium"
+                    cursor="pointer"
+                    _hover={{ bg: "pink.100" }}
+                  >
+                    {product.category}
+                  </Badge>
+                </Link>
               </Flex>
             </Box>
 
@@ -483,6 +492,7 @@ export default function ProductDetailPage({
           <FaWhatsapp size={28} />
         </IconButton>
       </a>
+      <Footer7 />
     </Box>
   );
 }

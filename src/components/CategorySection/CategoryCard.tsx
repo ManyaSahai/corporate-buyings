@@ -70,21 +70,6 @@ export function CategoryCard({ category }: CategoryCardProps) {
       ) : (
         content
       )}
-
-      {/* View All for category (links to products page) */}
-      <Box mt={2} textAlign="center">
-        <Link href="/products">
-          <Text
-            as="a"
-            fontSize="xs"
-            color="brand.primary"
-            fontWeight={"medium"}
-            _hover={{ textDecoration: "underline" }}
-          >
-            View All
-          </Text>
-        </Link>
-      </Box>
     </Box>
   );
 }

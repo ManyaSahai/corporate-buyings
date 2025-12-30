@@ -13,6 +13,7 @@ const reviews = [
     initials: "SK",
     bgColor: "#EEF2FF", // Light Indigo
     textColor: "#4F46E5", // Indigo
+    avatarUrl: "https://randomuser.me/api/portraits/women/44.jpg",
   },
   {
     id: 2,
@@ -23,6 +24,7 @@ const reviews = [
     initials: "RA",
     bgColor: "#ECFDF5", // Light Emerald
     textColor: "#059669", // Emerald
+    avatarUrl: "https://randomuser.me/api/portraits/men/32.jpg",
   },
   {
     id: 3,
@@ -33,6 +35,7 @@ const reviews = [
     initials: "PS",
     bgColor: "#FFF7ED", // Light Orange
     textColor: "#EA580C", // Orange
+    avatarUrl: "https://randomuser.me/api/portraits/women/68.jpg",
   },
 ];
 
@@ -50,6 +53,15 @@ export default function Testimonials() {
         <div style={styles.grid}>
           {reviews.map((review) => (
             <div key={review.id} style={styles.card}>
+              {/* User Face Avatar */}
+              <div style={styles.faceAvatarContainer}>
+                <img
+                  src={review.avatarUrl}
+                  alt={review.name}
+                  style={styles.faceAvatar}
+                />
+              </div>
+
               {/* Star Rating Icon (SVG) */}
               <div style={styles.stars}>
                 {[...Array(5)].map((_, i) => (
@@ -93,7 +105,7 @@ export default function Testimonials() {
 }
 
 // 2. Styles Object: Keeps the JSX clean and the design consistent
-const styles = {
+const styles: { [key: string]: React.CSSProperties } = {
   section: {
     background: "#f9fafb", // Very light gray for modern feel
     padding: "80px 24px",
@@ -133,8 +145,22 @@ const styles = {
     flexDirection: "column",
     justifyContent: "space-between",
   },
+  faceAvatarContainer: {
+    display: "flex",
+    justifyContent: "center",
+    marginBottom: "16px",
+  },
+  faceAvatar: {
+    width: "70px",
+    height: "70px",
+    borderRadius: "50%",
+    objectFit: "cover",
+    border: "3px solid #E5E7EB",
+    boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+  },
   stars: {
     display: "flex",
+    justifyContent: "center",
     gap: "4px",
     marginBottom: "20px",
   },
@@ -172,4 +198,4 @@ const styles = {
     fontSize: "0.85rem",
     color: "#9CA3AF",
   },
-} as const;
+};

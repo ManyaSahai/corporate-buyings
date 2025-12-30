@@ -4,12 +4,14 @@ import React from "react";
 import { Box, VStack } from "@chakra-ui/react";
 import { InfiniteSlider } from "@/components/ui/infinite-slider";
 import { ProgressiveBlur } from "@/components/ui/progressive-blur";
+import Link from "next/link";
 
 type Logo = {
     src: string;
     alt: string;
     width?: number;
     height?: number;
+    link?: string;
 };
 
 interface LogoCloudProps {
@@ -34,6 +36,38 @@ export function LogoCloud({ logos }: LogoCloudProps) {
         { logos: shuffleLogos(logos, 3), reverse: false, speed: 55 },
         { logos: shuffleLogos(logos, 4), reverse: true, speed: 40 },
     ];
+
+    const renderLogo = (logo: Logo, rowIndex: number, logoIndex: number) => {
+        const imgElement = (
+            <img
+                src={logo.src}
+                alt={logo.alt}
+                style={{
+                    height: "40px",
+                    width: "auto",
+                    objectFit: "contain",
+                    userSelect: "none",
+                    opacity: 0.85,
+                    cursor: logo.link ? "pointer" : "default",
+                }}
+                loading="lazy"
+            />
+        );
+
+        if (logo.link) {
+            return (
+                <Link key={`row-${rowIndex}-logo-${logoIndex}`} href={logo.link}>
+                    {imgElement}
+                </Link>
+            );
+        }
+
+        return (
+            <Box key={`row-${rowIndex}-logo-${logoIndex}`} style={{ pointerEvents: "none" }}>
+                {imgElement}
+            </Box>
+        );
+    };
 
     return (
         <Box
@@ -64,22 +98,7 @@ export function LogoCloud({ logos }: LogoCloudProps) {
                         reverse={row.reverse}
                         speed={row.speed}
                     >
-                        {row.logos.map((logo, logoIndex) => (
-                            <img
-                                key={`row-${rowIndex}-logo-${logoIndex}`}
-                                src={logo.src}
-                                alt={logo.alt}
-                                style={{
-                                    height: "40px",
-                                    width: "auto",
-                                    objectFit: "contain",
-                                    pointerEvents: "none",
-                                    userSelect: "none",
-                                    opacity: 0.85,
-                                }}
-                                loading="lazy"
-                            />
-                        ))}
+                        {row.logos.map((logo, logoIndex) => renderLogo(logo, rowIndex, logoIndex))}
                     </InfiniteSlider>
                 ))}
             </VStack>

@@ -110,16 +110,16 @@ export default function Home() {
           </Text>
           <LogoCloud
             logos={[
-              { src: "/brands/1.png", alt: "Brand 1" },
-              { src: "/brands/2.png", alt: "Brand 2" },
-              { src: "/brands/3.png", alt: "Brand 3" },
-              { src: "/brands/4.png", alt: "Brand 4" },
-              { src: "/brands/5.png", alt: "Brand 5" },
-              { src: "/brands/6.png", alt: "Brand 6" },
-              { src: "/brands/7.png", alt: "Brand 7" },
-              { src: "/brands/8.png", alt: "Brand 8" },
-              { src: "/brands/9.png", alt: "Brand 9" },
-              { src: "/brands/10.png", alt: "Brand 10" },
+              { src: "/brands/1.png", alt: "Camlin", link: "/products?brand=Camlin" },
+              { src: "/brands/2.png", alt: "3M", link: "/products?brand=3M" },
+              { src: "/brands/3.png", alt: "Philips", link: "/products?brand=Philips" },
+              { src: "/brands/4.png", alt: "Havells", link: "/products?brand=Havells" },
+              { src: "/brands/5.png", alt: "Crompton", link: "/products?brand=Crompton" },
+              { src: "/brands/6.png", alt: "Syska", link: "/products?brand=Syska" },
+              { src: "/brands/7.png", alt: "Bajaj", link: "/products?brand=Bajaj" },
+              { src: "/brands/8.png", alt: "Cello", link: "/products?brand=Cello" },
+              { src: "/brands/9.png", alt: "Apsara", link: "/products?brand=Apsara" },
+              { src: "/brands/10.png", alt: "Nataraj", link: "/products?brand=Nataraj" },
             ]}
           />
 
