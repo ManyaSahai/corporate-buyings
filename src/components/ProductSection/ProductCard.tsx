@@ -96,7 +96,7 @@ export function ProductCard({ product }: ProductCardProps) {
       <Box
         position="relative"
         width="100%"
-        height="150px"
+        height="140px"
         borderRadius="2xl"
         overflow="hidden"
         backgroundColor="bg.subtle"

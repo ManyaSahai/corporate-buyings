@@ -9,9 +9,9 @@ export interface BrandCardProps {
 }
 
 // Fixed dimensions for consistent sizing across all brand cards
-export const BRAND_CARD_WIDTH = 150;
-export const BRAND_CARD_HEIGHT = 130;
-export const BRAND_LOGO_SIZE = 100;
+export const BRAND_CARD_WIDTH = 180;
+export const BRAND_CARD_HEIGHT = 180;
+export const BRAND_LOGO_SIZE = 120;
 
 export function BrandCard({ brand }: BrandCardProps) {
   const { name, logoUrl, link } = brand;

@@ -34,7 +34,7 @@ export function CategoryCard({ category }: CategoryCardProps) {
       <Box
         position="relative"
         width="100%"
-        height="120px"
+        height="140px"
         borderRadius="xl"
         overflow="hidden"
       >

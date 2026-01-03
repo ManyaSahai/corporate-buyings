@@ -198,7 +198,8 @@ export function CategorySection({
             {categories.map((category) => (
               <Box
                 key={category.id}
-                minWidth={{ base: "140px", md: "160px" }}
+                minWidth="180px"
+                maxWidth="180px"
                 flexShrink={0}
               >
                 <CategoryCard category={category} />

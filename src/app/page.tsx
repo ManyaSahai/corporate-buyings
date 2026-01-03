@@ -3,6 +3,7 @@ import { Header } from "@/components/Header";
 import { HeroBanner } from "@/components/HeroBanner";
 import { CategorySection } from "@/components/CategorySection";
 import { ProductSection } from "@/components/ProductSection";
+import { FeaturedBrands } from "@/components/FeaturedBrands";
 import { Footer7 } from "@/components/ui/footer-7";
 import { LogoCloud } from "@/components/ui/logo-cloud-4";
 import { ClientsMarquee } from "@/components/ui/clients-marquee";
@@ -49,7 +50,7 @@ export default function Home() {
           <HeroBanner
             slides={heroSlides}
             sideCards={sideCards}
-            autoPlayInterval={5000}
+            autoPlayInterval={0}
           />
 
           <CategorySection
@@ -58,6 +59,9 @@ export default function Home() {
             layout={categorySections[0].layout}
             columns={categorySections[0].columns}
           />
+
+          {/* Featured Brands Section */}
+          <FeaturedBrands />
 
           <ProductSection
             title={productSections.dealOfTheDay.title}

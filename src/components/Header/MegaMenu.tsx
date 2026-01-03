@@ -6,18 +6,37 @@ import { MegaMenuData } from "@/types";
 
 interface MegaMenuProps {
   data: MegaMenuData;
+  alignment?: "left" | "center" | "right";
 }
 
 const MotionBox = motion.create(Box as React.ComponentType<any>);
 
-export function MegaMenu({ data }: MegaMenuProps) {
+export function MegaMenu({ data, alignment = "left" }: MegaMenuProps) {
   const columnCount = Math.min(data.categories.length, 4);
+
+  // Calculate position styles based on alignment
+  const getPositionStyles = () => {
+    switch (alignment) {
+      case "left":
+        return { left: "0", right: "auto", transform: "none" };
+      case "center":
+        return { left: "50%", right: "auto", transform: "translateX(-50%)" };
+      case "right":
+        return { left: "auto", right: "0", transform: "none" };
+      default:
+        return { left: "0", right: "auto", transform: "none" };
+    }
+  };
+
+  const positionStyles = getPositionStyles();
 
   return (
     <MotionBox
       position="absolute"
       top="100%"
-      left="0"
+      left={positionStyles.left}
+      right={positionStyles.right}
+      transform={positionStyles.transform}
       width="fit-content"
       maxW="90vw"
       bg="white"
@@ -90,3 +109,4 @@ export function MegaMenu({ data }: MegaMenuProps) {
     </MotionBox>
   );
 }
+

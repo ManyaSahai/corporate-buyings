@@ -396,7 +396,18 @@ export function NavBar() {
         gap={4}
         h="100%"
       >
-        {navItems.map((item) => (
+        {navItems.map((item, index) => {
+          // Determine alignment based on position
+          // First 3 items (AMCs, Corporate Gifts, Electrical) - left
+          // Last 2 items (Material Handling, Office Supplies) - right
+          // Middle items (Industrial Safety, IT Supplies) - center
+          const getAlignment = (): "left" | "center" | "right" => {
+            if (index <= 2) return "left";
+            if (index >= navItems.length - 2) return "right";
+            return "center";
+          };
+
+          return (
           <Box
             key={item.id}
             onMouseEnter={() => item.megaMenu && setActiveMenu(item.id)}
@@ -404,6 +415,7 @@ export function NavBar() {
             flexShrink={0}
             display="flex"
             alignItems="center"
+            position="relative"
           >
             <Flex
               direction="column"
@@ -475,11 +487,12 @@ export function NavBar() {
             {/* MegaMenu */}
             <AnimatePresence>
               {item.megaMenu && activeMenu === item.id && (
-                <MegaMenu data={item.megaMenu} />
+                <MegaMenu data={item.megaMenu} alignment={getAlignment()} />
               )}
             </AnimatePresence>
           </Box>
-        ))}
+          );
+        })}
       </Flex>
     </Box>
   );

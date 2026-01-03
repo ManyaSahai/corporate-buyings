@@ -50,7 +50,7 @@ export function Preloader() {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            background: `linear-gradient(135deg, #0f0f23 0%, #1a1a3e 50%, #2a1a4a 100%)`,
+            background: `linear-gradient(135deg, #FFFBF5 0%, #FFF8F0 50%, #FEFEFE 100%)`,
             overflow: "hidden",
           }}
         >
@@ -69,7 +69,7 @@ export function Preloader() {
                 key={i}
                 position="absolute"
                 borderRadius="full"
-                bg={i % 2 === 0 ? "rgba(232, 74, 61, 0.3)" : "rgba(42, 52, 140, 0.3)"}
+                bg={i % 2 === 0 ? "rgba(232, 74, 61, 0.15)" : "rgba(42, 52, 140, 0.12)"}
                 initial={{
                   x: `${Math.random() * 100}vw`,
                   y: `${Math.random() * 100}vh`,
@@ -102,12 +102,12 @@ export function Preloader() {
             height={{ base: "300px", md: "400px" }}
             borderRadius="full"
             border="2px solid"
-            borderColor="rgba(232, 74, 61, 0.2)"
+            borderColor="rgba(232, 74, 61, 0.15)"
             animation="pulse 2s ease-in-out infinite"
             css={{
               "@keyframes pulse": {
-                "0%, 100%": { transform: "scale(1)", opacity: 0.5 },
-                "50%": { transform: "scale(1.1)", opacity: 0.2 },
+                "0%, 100%": { transform: "scale(1)", opacity: 0.4 },
+                "50%": { transform: "scale(1.1)", opacity: 0.15 },
               },
             }}
           />
@@ -117,12 +117,12 @@ export function Preloader() {
             height={{ base: "250px", md: "350px" }}
             borderRadius="full"
             border="1px solid"
-            borderColor="rgba(42, 52, 140, 0.3)"
+            borderColor="rgba(42, 52, 140, 0.2)"
             animation="pulse2 2.5s ease-in-out infinite"
             css={{
               "@keyframes pulse2": {
-                "0%, 100%": { transform: "scale(1)", opacity: 0.3 },
-                "50%": { transform: "scale(1.15)", opacity: 0.1 },
+                "0%, 100%": { transform: "scale(1)", opacity: 0.25 },
+                "50%": { transform: "scale(1.15)", opacity: 0.08 },
               },
             }}
           />
@@ -150,17 +150,16 @@ export function Preloader() {
               <Box
                 p={6}
                 borderRadius="2xl"
-                bg="rgba(255, 255, 255, 0.05)"
+                bg="rgba(255, 255, 255, 0.9)"
                 backdropFilter="blur(10px)"
-                border="1px solid rgba(255, 255, 255, 0.1)"
-                boxShadow="0 0 60px rgba(232, 74, 61, 0.3), 0 0 100px rgba(42, 52, 140, 0.2)"
+                border="1px solid rgba(232, 74, 61, 0.1)"
+                boxShadow="0 8px 32px rgba(232, 74, 61, 0.12), 0 4px 16px rgba(42, 52, 140, 0.08)"
               >
                 <Image
                   src="/logo.png"
                   alt="Corporate Buyings"
                   width={{ base: "150px", md: "200px" }}
                   objectFit="contain"
-                  filter="drop-shadow(0 0 20px rgba(255, 255, 255, 0.3))"
                 />
               </Box>
             </motion.div>
@@ -174,7 +173,7 @@ export function Preloader() {
               <Text
                 fontSize={{ base: "xl", md: "2xl" }}
                 fontWeight="bold"
-                bgGradient="linear(to-r, #E84A3D, #667eea, #E84A3D)"
+                bgGradient="linear(to-r, #E84A3D, #2A348C, #E84A3D)"
                 bgClip="text"
                 backgroundSize="200% 100%"
                 letterSpacing="widest"
@@ -199,7 +198,7 @@ export function Preloader() {
             >
               <Text
                 fontSize={{ base: "sm", md: "md" }}
-                color="gray.400"
+                color="gray.600"
                 letterSpacing="wide"
               >
                 Your B2B Partner for Office & Industrial Supplies
@@ -216,17 +215,17 @@ export function Preloader() {
               <Box
                 width="200px"
                 height="4px"
-                bg="rgba(255, 255, 255, 0.1)"
+                bg="rgba(0, 0, 0, 0.08)"
                 borderRadius="full"
                 overflow="hidden"
               >
                 <Box
                   height="100%"
                   width={`${progress}%`}
-                  bgGradient="linear(to-r, #E84A3D, #667eea)"
+                  bgGradient="linear(to-r, #E84A3D, #2A348C)"
                   borderRadius="full"
                   transition="width 0.1s ease-out"
-                  boxShadow="0 0 10px rgba(232, 74, 61, 0.5)"
+                  boxShadow="0 0 8px rgba(232, 74, 61, 0.4)"
                 />
               </Box>
               <Text

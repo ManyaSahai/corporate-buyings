@@ -139,8 +139,8 @@ export function ProductSection({
               {products.map((product) => (
                 <Box
                   key={product.id}
-                  minWidth={{ base: "160px", md: "200px", lg: "220px" }}
-                  maxWidth={{ base: "160px", md: "200px", lg: "220px" }}
+                  minWidth="180px"
+                  maxWidth="180px"
                   flexShrink={0}
                 >
                   <ProductCard product={product} />
