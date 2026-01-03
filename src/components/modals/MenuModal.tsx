@@ -39,15 +39,23 @@ export function MenuModal({ isOpen, onClose, categoryName, subcategories }: Menu
             <Box
                 bg="white"
                 rounded="2xl"
-                p={6}
-                maxW="600px"
-                w="90%"
+                p={{ base: 4, md: 6 }}
+                maxW={{ base: "90vw", md: "500px" }}
                 maxH="80vh"
                 overflowY="auto"
                 onClick={(e) => e.stopPropagation()}
+                shadow="2xl"
+                display="inline-block"
+                css={{
+                    animation: "slideUp 0.3s ease-out",
+                    "@keyframes slideUp": {
+                        "0%": { opacity: 0, transform: "translateY(20px) scale(0.95)" },
+                        "100%": { opacity: 1, transform: "translateY(0) scale(1)" }
+                    }
+                }}
             >
-                <Flex justify="space-between" align="center" mb={6}>
-                    <Text fontWeight="bold" fontSize="xl" color="gray.900">
+                <Flex justify="space-between" align="center" mb={4} gap={4}>
+                    <Text fontWeight="bold" fontSize={{ base: "lg", md: "xl" }} color="gray.900">
                         {categoryName}
                     </Text>
                     <Box
@@ -62,19 +70,13 @@ export function MenuModal({ isOpen, onClose, categoryName, subcategories }: Menu
                     </Box>
                 </Flex>
 
-                <Grid
-                    templateColumns={{
-                        base: "repeat(2, 1fr)",
-                        md: "repeat(3, 1fr)",
-                    }}
-                    gap={4}
-                >
+                <VStack gap={2} align="stretch">
                     {subcategories.map((sub) => (
                         <Link key={sub.id} href={sub.href} style={{ textDecoration: "none" }}>
                             <Box
-                                p={4}
+                                p={3}
                                 bg="gray.50"
-                                rounded="xl"
+                                rounded="lg"
                                 _hover={{
                                     bg: "blue.50",
                                     borderColor: "blue.200",
@@ -83,18 +85,20 @@ export function MenuModal({ isOpen, onClose, categoryName, subcategories }: Menu
                                 borderColor="gray.200"
                                 transition="all 0.2s"
                             >
-                                <Text fontWeight="medium" color="gray.800" mb={1}>
-                                    {sub.name}
-                                </Text>
-                                {sub.productCount && (
-                                    <Text fontSize="xs" color="gray.500">
-                                        {sub.productCount} products
+                                <Flex justify="space-between" align="center" gap={3}>
+                                    <Text fontWeight="medium" color="gray.800" fontSize="sm">
+                                        {sub.name}
                                     </Text>
-                                )}
+                                    {sub.productCount && (
+                                        <Text fontSize="xs" color="gray.500" whiteSpace="nowrap">
+                                            {sub.productCount} items
+                                        </Text>
+                                    )}
+                                </Flex>
                             </Box>
                         </Link>
                     ))}
-                </Grid>
+                </VStack>
 
                 <Box mt={6} textAlign="center">
                     <Link

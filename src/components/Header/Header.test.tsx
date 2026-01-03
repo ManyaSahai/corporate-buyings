@@ -21,7 +21,7 @@ describe("Header", () => {
     ).toBeInTheDocument();
 
     // Check for login button
-    expect(screen.getByText("Login / Sign Up")).toBeInTheDocument();
+    expect(screen.getByText("Login")).toBeInTheDocument();
 
     // Check for cart
     expect(screen.getByText("Cart")).toBeInTheDocument();

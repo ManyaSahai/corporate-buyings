@@ -41,18 +41,22 @@ function QuoteFormModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
 
     const inputStyle = {
         width: "100%",
-        padding: "12px 0",
-        background: "transparent",
-        border: "none",
-        borderBottom: "1px solid rgba(255,255,255,0.3)",
-        color: "white",
+        padding: "12px 16px",
+        background: "#f9fafb",
+        border: "1px solid #e5e7eb",
+        borderRadius: "8px",
+        color: "#374151",
         fontSize: "14px",
         outline: "none",
+        transition: "border-color 0.2s, box-shadow 0.2s",
     };
 
     const labelStyle = {
-        color: "rgba(255,255,255,0.6)",
+        color: "#6b7280",
         fontSize: "14px",
+        fontWeight: 500,
+        marginBottom: "6px",
+        display: "block",
     };
 
     return (
@@ -62,21 +66,27 @@ function QuoteFormModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
             left={0}
             right={0}
             bottom={0}
-            bg="blackAlpha.700"
+            bg="blackAlpha.600"
             zIndex={1000}
             display="flex"
             alignItems="center"
             justifyContent="center"
             onClick={onClose}
+            css={{
+                backdropFilter: "blur(4px)",
+            }}
         >
             <Box
-                bg="#1e2a4a"
-                rounded="xl"
+                bg="white"
+                rounded="2xl"
                 p={8}
                 maxW="600px"
                 w="90%"
                 position="relative"
                 onClick={(e) => e.stopPropagation()}
+                shadow="2xl"
+                border="1px solid"
+                borderColor="gray.100"
             >
                 {/* Close Button */}
                 <IconButton
@@ -84,29 +94,41 @@ function QuoteFormModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
                     position="absolute"
                     top={4}
                     right={4}
-                    bg={THEME_SOLID}
-                    color="white"
+                    bg="gray.100"
+                    color="gray.600"
                     size="sm"
-                    rounded="md"
-                    _hover={{ opacity: 0.9 }}
+                    rounded="full"
+                    _hover={{ bg: "gray.200" }}
                     onClick={onClose}
                 >
                     ✕
                 </IconButton>
 
-                <Heading as="h2" fontSize="2xl" fontWeight="bold" color="white" mb={8}>
+                <Heading as="h2" fontSize="2xl" fontWeight="bold" color="gray.800" mb={2}>
                     Fill Form For Quotation
                 </Heading>
+                <Text color="gray.500" fontSize="sm" mb={6}>
+                    Please provide your details and we&apos;ll get back to you shortly.
+                </Text>
 
-                <VStack as="form" onSubmit={handleSubmit} gap={6} align="stretch">
+                <VStack as="form" onSubmit={handleSubmit} gap={5} align="stretch">
                     {/* Row 1: Name and Organization */}
-                    <Flex gap={8} direction={{ base: "column", md: "row" }}>
+                    <Flex gap={4} direction={{ base: "column", md: "row" }}>
                         <Box flex={1}>
                             <label style={labelStyle}>Name *</label>
                             <input
                                 type="text"
                                 required
+                                placeholder="Your full name"
                                 style={inputStyle}
+                                onFocus={(e) => {
+                                    e.target.style.borderColor = THEME_SOLID;
+                                    e.target.style.boxShadow = `0 0 0 3px ${THEME_SOLID}20`;
+                                }}
+                                onBlur={(e) => {
+                                    e.target.style.borderColor = "#e5e7eb";
+                                    e.target.style.boxShadow = "none";
+                                }}
                             />
                         </Box>
                         <Box flex={1}>
@@ -114,19 +136,37 @@ function QuoteFormModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
                             <input
                                 type="text"
                                 required
+                                placeholder="Company name"
                                 style={inputStyle}
+                                onFocus={(e) => {
+                                    e.target.style.borderColor = THEME_SOLID;
+                                    e.target.style.boxShadow = `0 0 0 3px ${THEME_SOLID}20`;
+                                }}
+                                onBlur={(e) => {
+                                    e.target.style.borderColor = "#e5e7eb";
+                                    e.target.style.boxShadow = "none";
+                                }}
                             />
                         </Box>
                     </Flex>
 
                     {/* Row 2: Email and Phone */}
-                    <Flex gap={8} direction={{ base: "column", md: "row" }}>
+                    <Flex gap={4} direction={{ base: "column", md: "row" }}>
                         <Box flex={1}>
                             <label style={labelStyle}>Company&apos;s Email *</label>
                             <input
                                 type="email"
                                 required
+                                placeholder="email@company.com"
                                 style={inputStyle}
+                                onFocus={(e) => {
+                                    e.target.style.borderColor = THEME_SOLID;
+                                    e.target.style.boxShadow = `0 0 0 3px ${THEME_SOLID}20`;
+                                }}
+                                onBlur={(e) => {
+                                    e.target.style.borderColor = "#e5e7eb";
+                                    e.target.style.boxShadow = "none";
+                                }}
                             />
                         </Box>
                         <Box flex={1}>
@@ -134,7 +174,16 @@ function QuoteFormModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
                             <input
                                 type="tel"
                                 required
+                                placeholder="+91 98765 43210"
                                 style={inputStyle}
+                                onFocus={(e) => {
+                                    e.target.style.borderColor = THEME_SOLID;
+                                    e.target.style.boxShadow = `0 0 0 3px ${THEME_SOLID}20`;
+                                }}
+                                onBlur={(e) => {
+                                    e.target.style.borderColor = "#e5e7eb";
+                                    e.target.style.boxShadow = "none";
+                                }}
                             />
                         </Box>
                     </Flex>
@@ -144,11 +193,19 @@ function QuoteFormModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
                         <label style={labelStyle}>Inquiry / Message *</label>
                         <textarea
                             required
-                            rows={5}
+                            rows={4}
+                            placeholder="Tell us about your requirements..."
                             style={{
                                 ...inputStyle,
                                 resize: "vertical",
-                                borderBottom: "1px solid rgba(255,255,255,0.3)",
+                            }}
+                            onFocus={(e) => {
+                                e.target.style.borderColor = THEME_SOLID;
+                                e.target.style.boxShadow = `0 0 0 3px ${THEME_SOLID}20`;
+                            }}
+                            onBlur={(e) => {
+                                e.target.style.borderColor = "#e5e7eb";
+                                e.target.style.boxShadow = "none";
                             }}
                         />
                     </Box>
@@ -160,12 +217,13 @@ function QuoteFormModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
                         color="white"
                         size="lg"
                         py={7}
-                        fontSize="lg"
-                        fontWeight="medium"
+                        fontSize="md"
+                        fontWeight="semibold"
                         type="submit"
-                        rounded="lg"
-                        _hover={{ opacity: 0.9 }}
-                        mt={4}
+                        rounded="xl"
+                        _hover={{ opacity: 0.9, transform: "translateY(-1px)" }}
+                        transition="all 0.2s"
+                        mt={2}
                     >
                         Get Quote
                     </Button>

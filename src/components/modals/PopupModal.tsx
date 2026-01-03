@@ -23,7 +23,12 @@ export default function PopupModal() {
   const size = useBreakpointValue({ base: "xs", md: "md" });
 
   useEffect(() => {
-    setIsOpen(true);
+    // Delay popup by 10 seconds after page load
+    const timer = setTimeout(() => {
+      setIsOpen(true);
+    }, 10000); // 10 seconds delay
+
+    return () => clearTimeout(timer);
   }, []);
 
   return (
@@ -178,7 +183,7 @@ export default function PopupModal() {
                     <Flex align="center" gap={2} mb={2}>
                       <FiUser size={14} color="#6B7280" />
                       <Text fontWeight="600" color="gray.600" fontSize="sm">
-                        Last Name
+                        Company Name
                       </Text>
                     </Flex>
                     <Input

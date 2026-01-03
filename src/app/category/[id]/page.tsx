@@ -240,10 +240,9 @@ export default function CategoryPage({
 
                     {/* Main Content */}
                     <Box flex="1">
-                        {/* Top Bar: Search & Sort */}
+                        {/* Top Bar: Sort */}
                         <Flex
-                            justify="space-between"
-                            wrap="wrap"
+                            justify="flex-end"
                             gap={4}
                             mb={6}
                             bg="white"
@@ -251,24 +250,6 @@ export default function CategoryPage({
                             rounded="2xl"
                             shadow="sm"
                         >
-                            <Box position="relative" maxW="400px" w="full">
-                                <Input
-                                    placeholder="Search products..."
-                                    borderRadius="2xl"
-                                    bg="gray.50"
-                                    border="none"
-                                    pl={10}
-                                />
-                                <Box
-                                    position="absolute"
-                                    left={3}
-                                    top="50%"
-                                    transform="translateY(-50%)"
-                                >
-                                    <FiSearch color="gray.400" />
-                                </Box>
-                            </Box>
-
                             <select
                                 style={{
                                     width: "200px",

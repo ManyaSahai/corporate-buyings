@@ -18,12 +18,13 @@ export function MegaMenu({ data }: MegaMenuProps) {
       position="absolute"
       top="100%"
       left="0"
-      right="0"
-      width="100%"
+      width="fit-content"
+      maxW="90vw"
       bg="white"
       boxShadow="0 4px 20px rgba(0, 0, 0, 0.15)"
       borderTop="1px solid"
       borderColor="gray.200"
+      borderRadius="0 0 16px 16px"
       zIndex={1100}
       py={6}
       initial={{ opacity: 0, y: -10 }}

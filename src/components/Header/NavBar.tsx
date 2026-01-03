@@ -385,7 +385,7 @@ export function NavBar() {
       borderColor="gray.200"
       position="relative"
       zIndex={99}
-      h="55px"
+      h="70px"
     >
       <Flex
         maxW="1400px"

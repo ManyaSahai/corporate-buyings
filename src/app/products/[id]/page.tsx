@@ -177,15 +177,22 @@ function RelatedProductCard({ product, productId }: { product: typeof productDet
 
 // Share Modal Component
 function ShareModal({ isOpen, onClose, productTitle, productUrl }: { isOpen: boolean; onClose: () => void; productTitle: string; productUrl: string }) {
+  const [copied, setCopied] = React.useState(false);
+  
   if (!isOpen) return null;
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(productUrl);
-    alert("Link copied to clipboard!");
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   const handleWhatsAppShare = () => {
     window.open(`https://wa.me/?text=${encodeURIComponent(`Check out this product: ${productTitle} - ${productUrl}`)}`, "_blank");
+  };
+
+  const handleEmailShare = () => {
+    window.open(`mailto:?subject=${encodeURIComponent(`Check out: ${productTitle}`)}&body=${encodeURIComponent(`I thought you might like this product:\n\n${productTitle}\n\n${productUrl}`)}`, "_blank");
   };
 
   return (
@@ -195,46 +202,166 @@ function ShareModal({ isOpen, onClose, productTitle, productUrl }: { isOpen: boo
       left={0}
       right={0}
       bottom={0}
-      bg="blackAlpha.600"
+      bg="blackAlpha.700"
       zIndex={1000}
       display="flex"
       alignItems="center"
       justifyContent="center"
       onClick={onClose}
+      css={{
+        backdropFilter: "blur(8px)",
+        animation: "fadeIn 0.2s ease-out",
+        "@keyframes fadeIn": {
+          "0%": { opacity: 0 },
+          "100%": { opacity: 1 }
+        }
+      }}
     >
       <Box
         bg="white"
-        rounded="2xl"
-        p={6}
-        maxW="400px"
+        rounded="3xl"
+        p={{ base: 6, md: 8 }}
+        maxW="420px"
         w="90%"
         onClick={(e) => e.stopPropagation()}
+        position="relative"
+        shadow="2xl"
+        css={{
+          animation: "slideUp 0.3s ease-out",
+          "@keyframes slideUp": {
+            "0%": { opacity: 0, transform: "translateY(20px) scale(0.95)" },
+            "100%": { opacity: 1, transform: "translateY(0) scale(1)" }
+          }
+        }}
       >
-        <Text fontWeight="bold" fontSize="lg" mb={4}>Share this product</Text>
-        <VStack gap={3}>
-          <Button
-            w="full"
-            colorScheme="whatsapp"
-            onClick={handleWhatsAppShare}
+        {/* Close Button */}
+        <IconButton
+          as="button"
+          aria-label="Close"
+          position="absolute"
+          top={3}
+          right={3}
+          size="sm"
+          variant="ghost"
+          color="gray.400"
+          _hover={{ color: "gray.600", bg: "gray.100" }}
+          onClick={onClose}
+          rounded="full"
+        >
+          <Text fontSize="lg">✕</Text>
+        </IconButton>
+
+        {/* Header */}
+        <Box textAlign="center" mb={6}>
+          <Box
+            w="60px"
+            h="60px"
+            bg={`linear-gradient(135deg, ${THEME_SOLID} 0%, #667eea 100%)`}
+            rounded="full"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            mx="auto"
+            mb={4}
+            shadow="lg"
           >
-            <FaWhatsapp style={{ marginRight: "8px" }} />
-            Share on WhatsApp
-          </Button>
-          <Button
-            w="full"
-            variant="outline"
-            onClick={handleCopyLink}
+            <FiShare2 size={24} color="white" />
+          </Box>
+          <Text fontWeight="bold" fontSize="xl" color="gray.800">
+            Share this product
+          </Text>
+          <Text fontSize="sm" color="gray.500" mt={1}>
+            Choose how you want to share
+          </Text>
+        </Box>
+
+        {/* Share Options - Horizontal Layout */}
+        <HStack gap={4} justify="center" mb={6}>
+          {/* WhatsApp */}
+          <VStack gap={2}>
+            <IconButton
+              as="button"
+              aria-label="Share on WhatsApp"
+              w="60px"
+              h="60px"
+              rounded="2xl"
+              bg="#25D366"
+              color="white"
+              _hover={{ transform: "translateY(-3px)", shadow: "lg", bg: "#20bd5a" }}
+              transition="all 0.2s"
+              onClick={handleWhatsAppShare}
+            >
+              <FaWhatsapp size={28} />
+            </IconButton>
+            <Text fontSize="xs" color="gray.600" fontWeight="medium">WhatsApp</Text>
+          </VStack>
+
+          {/* Email */}
+          <VStack gap={2}>
+            <IconButton
+              as="button"
+              aria-label="Share via Email"
+              w="60px"
+              h="60px"
+              rounded="2xl"
+              bg={THEME_SOLID}
+              color="white"
+              _hover={{ transform: "translateY(-3px)", shadow: "lg", opacity: 0.9 }}
+              transition="all 0.2s"
+              onClick={handleEmailShare}
+            >
+              <Text fontSize="xl">✉️</Text>
+            </IconButton>
+            <Text fontSize="xs" color="gray.600" fontWeight="medium">Email</Text>
+          </VStack>
+
+          {/* Copy Link */}
+          <VStack gap={2}>
+            <IconButton
+              as="button"
+              aria-label="Copy Link"
+              w="60px"
+              h="60px"
+              rounded="2xl"
+              bg={copied ? "#10B981" : "gray.100"}
+              color={copied ? "white" : "gray.700"}
+              _hover={{ transform: "translateY(-3px)", shadow: "lg", bg: copied ? "#10B981" : "gray.200" }}
+              transition="all 0.2s"
+              onClick={handleCopyLink}
+            >
+              <Text fontSize="xl">{copied ? "✓" : "🔗"}</Text>
+            </IconButton>
+            <Text fontSize="xs" color="gray.600" fontWeight="medium">
+              {copied ? "Copied!" : "Copy Link"}
+            </Text>
+          </VStack>
+        </HStack>
+
+        {/* Product Preview */}
+        <Box
+          bg="gray.50"
+          rounded="xl"
+          p={4}
+          border="1px solid"
+          borderColor="gray.100"
+        >
+          <Text 
+            fontSize="sm" 
+            color="gray.700" 
+            fontWeight="medium"
+            style={{
+              WebkitLineClamp: 2,
+              display: "-webkit-box",
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
+            }}
           >
-            Copy Link
-          </Button>
-          <Button
-            w="full"
-            variant="ghost"
-            onClick={onClose}
-          >
-            Cancel
-          </Button>
-        </VStack>
+            {productTitle}
+          </Text>
+          <Text fontSize="xs" color="gray.400" mt={1} style={{ wordBreak: "break-all" }}>
+            {productUrl.length > 50 ? productUrl.substring(0, 50) + "..." : productUrl}
+          </Text>
+        </Box>
       </Box>
     </Box>
   );
@@ -342,12 +469,12 @@ export default function ProductDetailPage({
               {/* Action Buttons */}
               <Flex gap={3} flexWrap="wrap" mb={{ base: 4, md: 6 }}>
                 <Button
-                  flex={1}
-                  minW={{ base: "200px", md: "auto" }}
+                  minW="auto"
                   bg={THEME_SOLID}
                   color="white"
                   size={{ base: "md", md: "lg" }}
                   _hover={{ opacity: 0.9 }}
+                  px={{ base: 4, md: 6 }}
                 >
                   <FaFileAlt style={{ marginRight: "8px" }} />
                   Request For Quote
@@ -404,7 +531,7 @@ export default function ProductDetailPage({
             </Box>
 
             {/* Tabs for Description and Specifications */}
-            <Box bg="white" rounded="2xl" shadow="sm" overflow="hidden">
+            <Box bg="white" rounded="2xl" shadow="sm" overflow="hidden" css={{ '&::-webkit-scrollbar': { display: 'none' }, scrollbarWidth: 'none' }}>
               <Tabs.Root defaultValue="description" variant="line" colorPalette="blue">
                 <Tabs.List 
                   px={{ base: 3, md: 6 }} 
@@ -412,6 +539,7 @@ export default function ProductDetailPage({
                   borderBottom="1px solid" 
                   borderColor="gray.100"
                   overflowX="auto"
+                  css={{ '&::-webkit-scrollbar': { display: 'none' }, scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                 >
                   <Tabs.Trigger
                     value="description"

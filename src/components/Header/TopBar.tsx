@@ -65,7 +65,7 @@ export function TopBar() {
               px={3}
               display={{ base: "none", md: "flex" }}
             >
-              Login / Sign Up
+              Login
             </Button>
           </Link>
           {/* Go to Site Button */}
@@ -83,7 +83,7 @@ export function TopBar() {
               px={3}
               _hover={{ opacity: 0.9 }}
             >
-              Go to Corporate Website
+      Corporate Website
             </Button>
           </a>
 

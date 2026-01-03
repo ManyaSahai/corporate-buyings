@@ -57,7 +57,7 @@ const defaultFeatures = [
       </svg>
     ),
     title: "Pan India Delivery",
-    description: "Over 16,000 pincodes serviceable across India.",
+    description: "Over 16,000+ pincodes serviceable across India.",
   },
   {
     icon: (
@@ -103,41 +103,46 @@ const defaultSections = [
     title: "Corporate Buyings",
     links: [
       { name: "About Us", href: "/about" },
+        { name: "Contact Us", href: "/contact" },
       { name: "Careers", href: "#" },
-      { name: "Press", href: "#" },
-      { name: "Testimonials", href: "#" },
-      { name: "Blog", href: "#" },
-      { name: "Articles", href: "#" },
+      { name: "Partner With Us", href: "#" },
+      { name: "Corporate Social Responsibility", href: "#" },
+      { name: "In the News", href: "#" },
+   
+    ],
+  },
+  {
+    title: "Shop",
+    links: [
+      { name: "Switchgears", href: "/cart" },
+      { name: "Wires & Cables", href: "/contact" },
+      { name: "Motors", href: "#" },
+      { name: "Gearboxes", href: "#" },
+          { name: "Lighting", href: "#" },
+              { name: "Bearings", href: "#" },
+    ],
+  },
+   {
+    title: "Categories",
+    links: [
+      { name: "Safety and PPE", href: "#" },
+      { name: "Solar", href: "#" },
+      { name: "Drives", href: "#" },
+      { name: "Pneumatics", href: "#" },
+      { name: "Lubricants", href: "#" },
     ],
   },
   {
     title: "Help",
     links: [
-      { name: "Request For Quote", href: "/cart" },
-      { name: "Contact Us", href: "/contact" },
-      { name: "Track My Order", href: "#" },
-      { name: "Buying Guide", href: "#" },
+      { name: "Terms & Conditions", href: "#" },
+      { name: "Privacy Policy", href: "#" },
+      { name: "Return & Refund Policy", href: "#" },
+      { name: "Shipping Policy", href: "#" },
+      { name: "Customer Support", href: "#" },
     ],
   },
-  {
-    title: "FAQs",
-    links: [
-      { name: "Order Tracking", href: "#" },
-      { name: "Cancellation and Return", href: "#" },
-      { name: "Refund", href: "#" },
-      { name: "Payment Option", href: "#" },
-    ],
-  },
-  {
-    title: "Our Brands",
-    links: [
-      { name: "Popular Searches", href: "#" },
-      { name: "Best Deals", href: "#" },
-      { name: "Online Assist", href: "#" },
-      { name: "Industry Store", href: "#" },
-      { name: "Top Buying Requirement", href: "#" },
-    ],
-  },
+  
   {
     title: "Miscellaneous",
     links: [
@@ -254,9 +259,106 @@ export const Footer7 = ({
         </Container>
       </Box>
 
-      {/* Copyright Section */}
-      <Box bg="gray.50" py={5} borderTopWidth="1px" borderColor="gray.200">
+      {/* Payment & Bottom Navigation Section */}
+      <Box bg="gray.100" py={6} borderTopWidth="1px" borderColor="gray.200">
         <Container maxW="container.xl" px={{ base: 4, lg: 8 }}>
+          {/* Payment Icons */}
+          <Flex 
+            justify="center" 
+            align="center" 
+            mb={4}
+            gap={6}
+            flexWrap="wrap"
+          >
+            <Text fontSize="12px" color="gray.500" fontWeight="500">
+              Secure Payments:
+            </Text>
+            <HStack gap={4}>
+              <Box 
+                bg="white" 
+                px={3} 
+                py={2} 
+                borderRadius="md" 
+                shadow="sm"
+                border="1px solid"
+                borderColor="gray.200"
+              >
+                <Image
+                  src="/img/razorpay-icon.svg"
+                  alt="Razorpay"
+                  width={60}
+                  height={20}
+                />
+              </Box>
+              <Box 
+                bg="white" 
+                px={3} 
+                py={2} 
+                borderRadius="md" 
+                shadow="sm"
+                border="1px solid"
+                borderColor="gray.200"
+              >
+                <Image
+                  src="/img/visa-icon.svg"
+                  alt="Visa"
+                  width={40}
+                  height={20}
+                />
+              </Box>
+              <Box 
+                bg="white" 
+                px={3} 
+                py={2} 
+                borderRadius="md" 
+                shadow="sm"
+                border="1px solid"
+                borderColor="gray.200"
+              >
+                <Image
+                  src="/img/master-card-icon.svg"
+                  alt="Mastercard"
+                  width={40}
+                  height={20}
+                />
+              </Box>
+            </HStack>
+          </Flex>
+
+          {/* Bottom Navigation Links */}
+          <Flex 
+            justify="center" 
+            align="center" 
+            gap={{ base: 3, md: 6 }}
+            mb={4}
+            flexWrap="wrap"
+          >
+            <Link href="/about" fontSize="11px" color="gray.600" _hover={{ color: "#2563eb" }}>
+              About Us
+            </Link>
+            <Text color="gray.300">|</Text>
+            <Link href="/contact" fontSize="11px" color="gray.600" _hover={{ color: "#2563eb" }}>
+              Contact
+            </Link>
+            <Text color="gray.300">|</Text>
+            <Link href="#" fontSize="11px" color="gray.600" _hover={{ color: "#2563eb" }}>
+              Privacy Policy
+            </Link>
+            <Text color="gray.300">|</Text>
+            <Link href="#" fontSize="11px" color="gray.600" _hover={{ color: "#2563eb" }}>
+              Terms & Conditions
+            </Link>
+            <Text color="gray.300">|</Text>
+            <Link href="#" fontSize="11px" color="gray.600" _hover={{ color: "#2563eb" }}>
+              Shipping
+            </Link>
+            <Text color="gray.300">|</Text>
+            <Link href="#" fontSize="11px" color="gray.600" _hover={{ color: "#2563eb" }}>
+              Returns
+            </Link>
+          </Flex>
+
+          {/* Copyright */}
           <Text fontSize="11px" color="gray.400" textAlign="center">
             © {new Date().getFullYear()} {companyName}. All rights reserved.
           </Text>

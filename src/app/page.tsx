@@ -5,6 +5,7 @@ import { CategorySection } from "@/components/CategorySection";
 import { ProductSection } from "@/components/ProductSection";
 import { Footer7 } from "@/components/ui/footer-7";
 import { LogoCloud } from "@/components/ui/logo-cloud-4";
+import { ClientsMarquee } from "@/components/ui/clients-marquee";
 import Testimonials from "@/components/Testimonials/Testimonials";
 
 import ClientHome from "./ClientHome";
@@ -106,7 +107,7 @@ export default function Home() {
             mb={8}
             mt={12}
           >
-            Our Brands Section
+            Brands We Work With
           </Text>
           <LogoCloud
             logos={[
@@ -120,6 +121,23 @@ export default function Home() {
               { src: "/brands/8.png", alt: "Cello", link: "/products?brand=Cello" },
               { src: "/brands/9.png", alt: "Apsara", link: "/products?brand=Apsara" },
               { src: "/brands/10.png", alt: "Nataraj", link: "/products?brand=Nataraj" },
+            ]}
+          />
+
+          <ClientsMarquee
+            title="Our Clients"
+            speed={25}
+            logos={[
+              { src: "/brands/1.png", alt: "Camlin" },
+              { src: "/brands/2.png", alt: "3M" },
+              { src: "/brands/3.png", alt: "Philips" },
+              { src: "/brands/4.png", alt: "Havells" },
+              { src: "/brands/5.png", alt: "Crompton" },
+              { src: "/brands/6.png", alt: "Syska" },
+              { src: "/brands/7.png", alt: "Bajaj" },
+              { src: "/brands/8.png", alt: "Cello" },
+              { src: "/brands/9.png", alt: "Apsara" },
+              { src: "/brands/10.png", alt: "Nataraj" },
             ]}
           />
 
